@@ -23,6 +23,8 @@ public class MusicApplication extends Application {
 
     public static String key = "vfXSA6XTVDYpr2HL0xOUdVqXbcJoU99C";//api_key
     public static String secret = "AHg02tIO3JY6os6niQT93LWFfWcfcVvt";//api_secret
+    public static String ip = "http://192.168.2.129:8080/";//api_secret
+    public static String faceset_token = "62d7ce88b45b5511c27f65091a9b8694";//faceset_token
 
     @Override
     public void onCreate() {

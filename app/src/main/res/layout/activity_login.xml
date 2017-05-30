@@ -52,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:text="403918995@qq.com"
                     android:textSize="13sp"
                     android:hint="用户名"
                     android:textColor="#2fa881"
@@ -78,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
+                        android:text="123456"
                         android:textSize="13sp"
                         android:hint="密码"
                         android:textColor="#2fa881"
@@ -150,6 +152,12 @@
                 android:layout_height="wrap_content"
                 android:text="忘记密码"
                 />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/imagesss"/>
         </LinearLayout>
         </android.support.v7.widget.CardView>
 

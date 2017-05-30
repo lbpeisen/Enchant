@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +25,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.megvii.cloud.http.CommonOperate;
 import com.megvii.cloud.http.FaceSetOperate;
 import com.megvii.cloud.http.Response;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +47,11 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.wcy.music.R;
 import me.wcy.music.activity.face.FaceDetectGrayActivity;
+import me.wcy.music.application.MusicApplication;
+import me.wcy.music.model.User;
+import me.wcy.music.utils.Httputils;
+import okhttp3.Call;
+import okhttp3.MediaType;
 
 import static me.wcy.music.application.MusicApplication.key;
 import static me.wcy.music.application.MusicApplication.secret;
@@ -64,6 +71,8 @@ public class RegisterActivity extends AppCompatActivity {
     String st_user;
     String st_username;
     String st_passwd;
+    String pin;
+    String faceToken1;
     EditText et_repeatpassword;
     EditText et_emailpin;
     String st_repeatpassword;
@@ -158,18 +167,71 @@ public class RegisterActivity extends AppCompatActivity {
         bt_getpin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String email=et_username.getText().toString();
-//                if(isEmail(email)){
-//                    Map map=new HashMap();
-//                    map.put("user_mail",email);
-//                    map.put("type","0");
-//                    map.put("method","sendEmail.php");
-//                    new HttpThreadString(emailhandle,getApplicationContext(),map,proDialog).start();
+                String email = et_username.getText().toString();
+                if (isEmail(email)) {
+                    HashMap map = new HashMap();
+                    map.put("email", email);
+//                    map.put("type", "0");
+//                    map.put("method", "sendEmail.php");
+                    OkHttpUtils
+                            .postString()
+                            .url(MusicApplication.ip + "enchant/getCode.action")
+//                            .content(new Gson().toJson(new User("zhy", "123")))
+                            .content(Httputils.createJSON(map).toString())
+                            .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
+                                    Toast.makeText(RegisterActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError");
+                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + id);
+                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + MusicApplication.ip + "enchant/getCode.action");
+                                }
+
+                                @Override
+                                public void onResponse(String response, int id) {
+//                                    if(response.contains())
+
+                                    if (response.toString().contains("\"STATUS\":1003")) {
+                                        Log.d(TAG, "onResponse:3333 ");
+                                        Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
+                                    } else if (response.toString().contains("\"STATUS\":1000")) {
+                                        Log.d(TAG, "onResponse:3333 ");
+                                        Toast.makeText(RegisterActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+                                    }
+//                                    Toast.makeText(RegisterActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+//                                    Log.d(TAG, "onResponse: 2333333");
+                                }
+                            });
+
+
+//                    OkHttpUtils
+//                            .post()
+//                            .url(MusicApplication.ip + "enchant/getCode.action")
+//                            .addParams("email", email)
+//                            .build()
+//                            .execute(new StringCallback() {
+//                                @Override
+//                                public void onError(Call call, Exception e, int id) {
+//                                    Toast.makeText(RegisterActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+//                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError");
+//                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + id);
+//                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + MusicApplication.ip + "enchant/getCode.action");
+//                                }
+//
+//                                @Override
+//                                public void onResponse(String response, int id) {
+//                                    Toast.makeText(RegisterActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
+//                                    Log.d(TAG, "onResponse: 2333333");
+//                                }
+//                            });
+//                    new HttpThreadString(emailhandle, getApplicationContext(), map, proDialog).start();
 //                    createProgressBar();
-//                }else {
-//                    Toast.makeText(RegisterActivity.this, "请输入正确邮箱", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                } else {
+                    Toast.makeText(RegisterActivity.this, "请输入正确邮箱", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 
             }
@@ -180,41 +242,44 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                if(et_username.length()==0){
-//                    Toast.makeText(RegisterActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if(et_user.length()==0){
-//                    Toast.makeText(RegisterActivity.this, "昵称不能为空", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if(et_passwd.length()==0){
-//                    Toast.makeText(RegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(et_repeatpassword.length()==0){
-//                    Toast.makeText(RegisterActivity.this, "重复密码不能为空", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }else if(et_repeatpassword.length()<6){
-//                    Toast.makeText(RegisterActivity.this, "密码不小于6位", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }else if(et_repeatpassword.length()>18){
-//                    Toast.makeText(RegisterActivity.this, "密码不大于18位", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                st_username=et_username.getText().toString();
-//                st_user=et_user.getText().toString();
-//                st_passwd=et_passwd.getText().toString();
-//                String pin=et_emailpin.getText().toString();
-//                st_repeatpassword=et_repeatpassword.getText().toString();
-//                if(!st_passwd.equals(st_repeatpassword)){
-//                    Toast.makeText(RegisterActivity.this, "2次输入密码不同", Toast.LENGTH_SHORT).show();
-//                }
-//
-//
+                if (et_username.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (et_user.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "昵称不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (et_emailpin.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (et_passwd.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (et_repeatpassword.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "重复密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (et_repeatpassword.length() < 6) {
+                    Toast.makeText(RegisterActivity.this, "密码不小于6位", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (et_repeatpassword.length() > 18) {
+                    Toast.makeText(RegisterActivity.this, "密码不大于18位", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                st_username = et_username.getText().toString();
+                st_user = et_user.getText().toString();
+                st_passwd = et_passwd.getText().toString();
+                pin = et_emailpin.getText().toString();
+                st_repeatpassword = et_repeatpassword.getText().toString();
+                if (!st_passwd.equals(st_repeatpassword)) {
+                    Toast.makeText(RegisterActivity.this, "2次输入密码不同", Toast.LENGTH_SHORT).show();
+                }
+
+
 //                map.put("reg_mail",st_username);
 //                map.put("reg_passwd", st_passwd);
 //                map.put("reg_name", st_user);
@@ -233,7 +298,72 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 // TODO: 2017/5/27
+                                OkHttpUtils
+                                        .postString()
+                                        .url(MusicApplication.ip + "enchant/register.action")
+                                        .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin)))
+                                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                                        .build()
+                                        .execute(new StringCallback() {
+                                            @Override
+                                            public void onError(Call call, Exception e, int id) {
+                                                Log.d(TAG, "onError: register" + call);
+                                                Log.d(TAG, "onError: register" + e);
+                                                Log.d(TAG, "onError: register" + id);
+                                            }
+
+                                            @Override
+                                            public void onResponse(String response, int id) {
+                                                Log.d(TAG, "onResponse: " + response);
+                                                Log.d(TAG, "onResponse: " + response.toString());
+                                                if (response.toString().contains("\"STATUS\":1005")) {
+
+                                                    Log.d(TAG, "onResponse:1111 ");
+                                                    Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                                                } else if (response.toString().contains("\"STATUS\":1004")) {
+
+                                                    Log.d(TAG, "onResponse:222 ");
+                                                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                                    animateRevealClose();
+                                                } else if (response.toString().contains("\"STATUS\":1006")) {
+
+                                                    Log.d(TAG, "onResponse:3333 ");
+                                                    Toast.makeText(RegisterActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                                                } else if (response.toString().contains("\"STATUS\":1003")) {
+
+                                                    Log.d(TAG, "onResponse:3333 ");
+                                                    Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
+                                                }
+
+
+                                            }
+                                        });
+
+
+//                                OkHttpUtils
+//                                        .post()
+//                                        .url(MusicApplication.ip + "enchant/register.action")
+//                                        .addParams("user_email", "403918995@qq.com")
+//                                        .addParams("user_password", "123456")
+//                                        .addParams("user_name", "123")
+//                                        .addParams("code", "860580")
+//                                        .build()
+//                                        .execute(new StringCallback() {
+//                                            @Override
+//                                            public void onError(Call call, Exception e, int id) {
+//                                                Log.d(TAG, "onError: register" + call);
+//                                                Log.d(TAG, "onError: register" + e);
+//                                                Log.d(TAG, "onError: register" + id);
+//                                            }
+//
+//                                            @Override
+//                                            public void onResponse(String response, int id) {
+//                                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                                                animateRevealClose();
+//                                            }
+//                                        });
                                 sweetAlertDialog.dismiss();
+
                             }
                         })
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -360,79 +490,168 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
-                if (data.getByteArrayExtra("Imagetx") != null) {
-                    bis = data.getByteArrayExtra("Imagetx");
-                    bitmaptoux = BitmapFactory.decodeByteArray(bis, 0, bis.length);
+            if (data == null) {
+                return;
+            }
+            if (data.getByteArrayExtra("Imagetx") != null) {
+                bis = data.getByteArrayExtra("Imagetx");
+                bitmaptoux = BitmapFactory.decodeByteArray(bis, 0, bis.length);
 //                    imgview_touxiang.setImageBitmap(bitmaptoux);
-                    Drawable drawable = new BitmapDrawable(bitmaptoux);
-                    new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                            .setTitleText("这是你吗？")
-                            .setCustomImage(drawable)
-                            .setCancelText("No")
-                            .setConfirmText("Yes")
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    HasImg = false;
-                                    Intent intent = new Intent(RegisterActivity.this, FaceDetectGrayActivity.class);
-                                    startActivityForResult(intent, REQUEST_CODE);
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            })
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    Toast.makeText(RegisterActivity.this, "yes", Toast.LENGTH_SHORT).show();
-                                    sweetAlertDialog.dismissWithAnimation();
-                                    //检测第一个人脸，传的是本地图片文件
-                                    //detect first face by local file
+                Drawable drawable = new BitmapDrawable(bitmaptoux);
+                new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                        .setTitleText("这是你吗？")
+                        .setCustomImage(drawable)
+                        .setCancelText("No")
+                        .setConfirmText("Yes")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                HasImg = false;
+                                Intent intent = new Intent(RegisterActivity.this, FaceDetectGrayActivity.class);
+                                startActivityForResult(intent, REQUEST_CODE);
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
 
-                                    Log.d(TAG, "faceToken1aaa");
+                                Log.d(TAG, "faceToken1aaa");
 
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                                            Log.d(TAG, "faceToken1aaa1");
-                                            CommonOperate commonOperate = new CommonOperate(key, secret, false);
-                                            FaceSetOperate FaceSet = new FaceSetOperate(key, secret, false);
-                                            ArrayList<String> faces = new ArrayList<>();
+                                        Log.d(TAG, "faceToken1aaa1");
+                                        CommonOperate commonOperate = new CommonOperate(key, secret, false);
+                                        FaceSetOperate FaceSet = new FaceSetOperate(key, secret, false);
+                                        ArrayList<String> faces = new ArrayList<>();
 
-                                            Response response1 = null;
-                                            try {
-                                                response1 = commonOperate.detectByte(bis, 0, null);
-                                                String faceToken1 = getFaceToken(response1);
-                                                faces.add(faceToken1);
-                                                Log.d(TAG, "faceToken1aaa" + faceToken1);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
+                                        Response response1 = null;
+                                        try {
+                                            //cb1975bb94db8b29f89f82669e9d3d04
+                                            response1 = commonOperate.detectByte(bis, 0, null);
+                                            faceToken1 = getFaceToken(response1);
+                                            faces.add(faceToken1);
+                                            String faceTokens = creatFaceTokens(faces);
+                                            Response faceset = FaceSet.createFaceSet(null,"test",null,faceTokens,null, 1);
+                                            Log.d(TAG, "faceToken1aaa" + faceToken1);
+                                            OkHttpUtils
+                                                    .postString()
+                                                    .url(MusicApplication.ip + "enchant/register.action")
+                                                    .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin, faceToken1)))
+                                                    .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                                                    .build()
+                                                    .execute(new StringCallback() {
+                                                        @Override
+                                                        public void onError(Call call, Exception e, int id) {
+                                                            Log.d(TAG, "onError: register" + call);
+                                                            Log.d(TAG, "onError: register" + e);
+                                                            Log.d(TAG, "onError: register" + id);
+                                                        }
+
+                                                        @Override
+                                                        public void onResponse(String response, int id) {
+                                                            Log.d(TAG, "onResponse: " + response);
+                                                            Log.d(TAG, "onResponse: " + response.toString());
+                                                            if (response.toString().contains("\"STATUS\":1005")) {
+
+                                                                Log.d(TAG, "onResponse:1111 ");
+                                                                Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+                                                            } else if (response.toString().contains("\"STATUS\":1004")) {
+
+                                                                Log.d(TAG, "onResponse:222 ");
+                                                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                                                animateRevealClose();
+                                                            } else if (response.toString().contains("\"STATUS\":1006")) {
+
+                                                                Log.d(TAG, "onResponse:3333 ");
+                                                                Toast.makeText(RegisterActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+                                                            } else if (response.toString().contains("\"STATUS\":1003")) {
+
+                                                                Log.d(TAG, "onResponse:3333 ");
+                                                                Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
+                                                            }
+
+
+                                                        }
+                                                    });
+
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
 //                                        StringBuffer sb = null;
 //                                        sb.append("faceToken1: ");
 //                                        sb.append(faceToken1);
 
-                                        }
-                                    }).start();
+                                    }
+                                }).start();
 //                                    runOnUiThread(new Runnable() {
 //                                        @Override
 //                                        public void run() {
 //                                            mTextView.setText(sb.toString());
 //                                        }
 //                                    });
-                                    ;
-                                }
-                            })
-                            .show();
-                    HasImg = true;
-                    Log.e("hh", "3");
-                }
-                Log.e("hh", "2");
+//                                ;
 
-            } else {
-                Log.e("hh1", requestCode + "  " + resultCode);
+
+//                                OkHttpUtils
+//                                        .postString()
+//                                        .url(MusicApplication.ip + "enchant/register.action")
+//                                        .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin, "c07d3f2f8d6dcaa9d5ba9b8beaa4291")))
+//                                        .mediaType(MediaType.parse("application/json; charset=utf-8"))
+//                                        .build()
+//                                        .execute(new StringCallback() {
+//                                            @Override
+//                                            public void onError(Call call, Exception e, int id) {
+//                                                Log.d(TAG, "onError: register" + call);
+//                                                Log.d(TAG, "onError: register" + e);
+//                                                Log.d(TAG, "onError: register" + id);
+//                                            }
+//
+//                                            @Override
+//                                            public void onResponse(String response, int id) {
+//                                                Log.d(TAG, "onResponse: " + response);
+//                                                Log.d(TAG, "onResponse: " + response.toString());
+//                                                if (response.toString().contains("\"STATUS\":1005")) {
+//
+//                                                    Log.d(TAG, "onResponse:1111 ");
+//                                                    Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
+//                                                } else if (response.toString().contains("\"STATUS\":1004")) {
+//
+//                                                    Log.d(TAG, "onResponse:222 ");
+//                                                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                                                    animateRevealClose();
+//                                                } else if (response.toString().contains("\"STATUS\":1006")) {
+//
+//                                                    Log.d(TAG, "onResponse:3333 ");
+//                                                    Toast.makeText(RegisterActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
+//                                                } else if (response.toString().contains("\"STATUS\":1003")) {
+//
+//                                                    Log.d(TAG, "onResponse:3333 ");
+//                                                    Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
+//                                                }
+//
+//
+//                                            }
+//                                        });
+
+
+                            }
+                        })
+                        .show();
+                HasImg = true;
+                Log.e("hh", "3");
             }
+            Log.e("hh", "2");
+
+        } else {
+            Log.e("hh1", requestCode + "  " + resultCode);
         }
+    }
 
 
     private byte[] getBitmap(int res) {
@@ -452,4 +671,21 @@ public class RegisterActivity extends AppCompatActivity {
         String faceToken = json.optJSONArray("faces").optJSONObject(0).optString("face_token");
         return faceToken;
     }
+
+    private String creatFaceTokens(ArrayList<String> faceTokens){
+        if(faceTokens == null || faceTokens.size() == 0){
+            return "";
+        }
+        StringBuffer face = new StringBuffer();
+        for (int i = 0; i < faceTokens.size(); i++){
+            if(i == 0){
+                face.append(faceTokens.get(i));
+            }else{
+                face.append(",");
+                face.append(faceTokens.get(i));
+            }
+        }
+        return face.toString();
+    }
+
 }
