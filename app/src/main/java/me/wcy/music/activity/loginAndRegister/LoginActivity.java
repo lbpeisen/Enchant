@@ -429,7 +429,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (response.toString().contains("\"STATUS\":1000")) {
 
                                                 Log.d(TAG, "onResponse:1111 ");
-//                                Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this, "刷脸成功!", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             } else if (response.toString().contains("\"STATUS\":1008")) {
 
