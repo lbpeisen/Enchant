@@ -537,6 +537,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             String faceTokens = creatFaceTokens(faces);
                                             Response faceset = FaceSet.createFaceSet(null,"test",null,faceTokens,null, 1);
                                             Log.d(TAG, "faceToken1aaa" + faceToken1);
+                                            animateRevealClose();
                                             OkHttpUtils
                                                     .postString()
                                                     .url(MusicApplication.ip + "enchant/register.action")

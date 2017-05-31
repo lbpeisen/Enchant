@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.megvii.cloud.http.CommonOperate;
 import com.megvii.cloud.http.Response;
@@ -344,8 +345,10 @@ public class LoginActivity extends AppCompatActivity {
                 bis = data.getByteArrayExtra("Imagetx");
                 bitmaptoux = BitmapFactory.decodeByteArray(bis, 0, bis.length);
 //                    imgview_touxiang.setImageBitmap(bitmaptoux);
-                Drawable drawable = new BitmapDrawable(bitmaptoux);
-                imgss.setImageDrawable(drawable);
+//                Drawable drawable = new BitmapDrawable(bitmaptoux);
+//                imgss.setImageDrawable(drawable);
+//                Glide.with(context).load(R.drawable.face).into(imageview);
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -408,6 +411,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Looper.loop();
                                 return;
                             }
+
+                            finish();
                             OkHttpUtils
                                     .postString()
                                     .url(MusicApplication.ip + "enchant/login.action")
