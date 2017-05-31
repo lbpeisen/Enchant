@@ -1,8 +1,6 @@
 package me.wcy.music.utils;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Build;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;

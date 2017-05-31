@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import me.wcy.music.R;
 import me.wcy.music.activity.AboutActivity;
+import me.wcy.music.activity.MessageActivity;
 import me.wcy.music.activity.MusicActivity;
 import me.wcy.music.activity.SettingActivity;
 import me.wcy.music.activity.loginAndRegister.LoginActivity;
@@ -28,6 +29,9 @@ public class NaviMenuExecutor {
         switch (item.getItemId()) {
             case R.id.action_login:
                 startActivity(context, LoginActivity.class);
+                return true;
+            case R.id.action_info:
+                startActivity(context, MessageActivity.class);
                 return true;
             case R.id.action_setting:
                 startActivity(context, SettingActivity.class);

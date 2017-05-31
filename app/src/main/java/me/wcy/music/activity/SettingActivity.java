@@ -18,7 +18,6 @@ public class SettingActivity extends BaseActivity {
         if (!checkServiceAlive()) {
             return;
         }
-
         getFragmentManager().beginTransaction().replace(R.id.ll_fragment_container, new SettingFragment()).commit();
     }
 
