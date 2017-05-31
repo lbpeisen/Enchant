@@ -89,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
         imgss = (ImageView) findViewById(R.id.imagesss);
         tv_losepasswd = (TextView) findViewById(R.id.tv_losepasswd);
         sp = getSharedPreferences("ziliao", MODE_PRIVATE);//获得实例对象
+        //test git
+        //sssss
         handler = new Handler() {
 
             @Override
