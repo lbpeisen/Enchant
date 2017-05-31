@@ -5,6 +5,12 @@
             android:id="@+id/action_login"
             android:icon="@drawable/ic_menu_settings"
             android:title="@string/menu_login" />
+
+        <item
+            android:id="@+id/action_info"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/menu_info" />
+
         <item
             android:id="@+id/action_setting"
             android:icon="@drawable/ic_menu_settings"

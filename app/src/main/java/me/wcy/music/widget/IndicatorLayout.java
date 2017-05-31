@@ -35,7 +35,7 @@ public class IndicatorLayout extends LinearLayout {
     public void create(int count) {
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(getContext());
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            imageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
             int padding = ScreenUtils.dp2px(3);
             imageView.setPadding(padding, 0, padding, 0);
             imageView.setImageResource(i == 0 ? R.drawable.ic_play_page_indicator_selected : R.drawable.ic_play_page_indicator_unselected);

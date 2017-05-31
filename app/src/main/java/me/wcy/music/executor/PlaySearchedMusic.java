@@ -9,8 +9,8 @@ import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
 import me.wcy.music.model.DownloadInfo;
 import me.wcy.music.model.Lrc;
-import me.wcy.music.model.SearchMusic;
 import me.wcy.music.model.Music;
+import me.wcy.music.model.SearchMusic;
 import me.wcy.music.utils.FileUtils;
 
 /**
