@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import me.wcy.music.R;
 import me.wcy.music.activity.AboutActivity;
+import me.wcy.music.activity.ChatActivity;
 import me.wcy.music.model.NewsInfo;
 
 
@@ -59,7 +60,7 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     //启动
-                    Intent userActivity = new Intent(itemView.getContext(), AboutActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent userActivity = new Intent(itemView.getContext(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     itemView.getContext().startActivity(userActivity);
                 }
             });

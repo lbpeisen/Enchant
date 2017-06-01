@@ -67,7 +67,7 @@ dependencies {
 
     compile 'com.ldoublem.thumbUplib:ThumbUplib:0.2'
     compile 'com.github.florent37:materialviewpager:1.2.1'
-
+    compile 'jp.bassaer:chatmessageview:1.2.0'
 //dependencies
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.jpardogo.materialtabstrip:library:1.1.0'

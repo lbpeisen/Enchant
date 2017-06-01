@@ -29,7 +29,8 @@
     <string name="unable_to_download">暂时无法下载</string>
     <string name="unable_to_share">暂时无法分享</string>
     <string name="artist_info">歌手信息</string>
-    <string name="messinfo">通知</string>
+    <string name="mess_info">通知</string>
+    <string name="mess_content">内容</string>
     <string name="artist_info_name">姓名：%s</string>
     <string name="artist_info_country">国籍：%s</string>
     <string name="artist_info_constellation">星座：%s</string>
