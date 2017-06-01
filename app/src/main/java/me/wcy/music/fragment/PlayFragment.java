@@ -127,6 +127,11 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void like(boolean like) {
                 //点赞详细操作
+                if(like) {
+                    ToastUtils.show(R.string.like);
+                }else {
+                    ToastUtils.show(R.string.unlike);
+                }
             }
         });
     }
