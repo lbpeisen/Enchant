@@ -3,6 +3,7 @@ package me.wcy.music.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import me.wcy.music.model.SongListInfo;
 import me.wcy.music.utils.NetworkUtils;
 import me.wcy.music.utils.ViewUtils;
 import me.wcy.music.utils.binding.Bind;
+
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 在线音乐
@@ -59,6 +62,7 @@ public class SongListFragment extends BaseFragment implements AdapterView.OnItem
                 mSongLists.add(info);
             }
         }
+        Log.d(TAG, "init: "+mSongLists.get(0).getMusic1());
         SongListAdapter adapter = new SongListAdapter(mSongLists);
         lvSongList.setAdapter(adapter);
     }
