@@ -37,8 +37,8 @@ public class ChatActivity extends BaseActivity {
         mChatView.setSendIcon(R.drawable.ic_action_send);
         mChatView.setRightMessageTextColor(Color.WHITE);
         mChatView.setLeftMessageTextColor(Color.BLACK);
-        mChatView.setUsernameTextColor(Color.WHITE);
-        mChatView.setSendTimeTextColor(Color.WHITE);
+        mChatView.setUsernameTextColor(Color.BLACK);
+        mChatView.setSendTimeTextColor(Color.BLACK);
         mChatView.setDateSeparatorColor(Color.WHITE);
         //
         Reflash();
