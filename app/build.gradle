@@ -65,7 +65,7 @@ dependencies {
     compile 'cn.pedant.sweetalert:library:1.3'
     compile files('libs/FaceppSDK.jar')
 
-
+    compile 'com.ldoublem.thumbUplib:ThumbUplib:0.2'
     compile 'com.github.florent37:materialviewpager:1.2.1'
 
 //dependencies
