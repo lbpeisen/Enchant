@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import me.wcy.music.R;
@@ -113,8 +115,11 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onResponse(String response, int id) {
                         Log.d(TAG, "onResponse: " + response);
-                        if (response.toString().contains("\"STATUS\":1000")) {
-
+                        Type type = new TypeToken<ArrayList<ReceiveMess>>() {}.getType();
+                        ArrayList<ReceiveMess> jsonObjects = new Gson().fromJson(response, type);
+                        for (ReceiveMess infoitem : jsonObjects)
+                        {
+                            info.add(0,infoitem);
                         }
                     }
                 });
