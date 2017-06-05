@@ -24,8 +24,11 @@ import butterknife.ButterKnife;
 import me.wcy.music.R;
 import me.wcy.music.adapter.NewListAdapter;
 import me.wcy.music.application.MusicApplication;
+import me.wcy.music.http.HttpCallback;
+import me.wcy.music.http.HttpClient;
 import me.wcy.music.model.GetMess;
 import me.wcy.music.model.ReceiveMess;
+import me.wcy.music.model.ReceiveMessGroup;
 import okhttp3.Call;
 import okhttp3.MediaType;
 
@@ -70,32 +73,26 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         newsadapter.notifyChange(addTest());
     }
 
+
+    //Get ReceiveMessage
     public ArrayList<ReceiveMess> GetNewInfo(){
-        final ArrayList<ReceiveMess> info = new ArrayList<>();
-        OkHttpUtils
-                .postString()
-                .url(MusicApplication.ip + "enchant/login.action")
-                .content(new Gson().toJson(new GetMess("33")))//local user`s id
-                .mediaType(MediaType.parse("application/json; charset=utf-8"))
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.d(TAG, "onError: " + e);
-                    }
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.d(TAG, "onResponse: " + response);
-                        Type type = new TypeToken<ArrayList<ReceiveMess>>() {}.getType();
-                        ArrayList<ReceiveMess> jsonObjects = new Gson().fromJson(response, type);
-                        for (ReceiveMess infoitem : jsonObjects)
-                        {
-                            info.add(0,infoitem);
-                        }
-                    }
-                });
+        final ArrayList<ReceiveMess> receiveMesses = new ArrayList<>();
+        HttpClient.getReceiveMess("33", new HttpCallback<ReceiveMessGroup>() {
+            @Override
+            public void onSuccess(ReceiveMessGroup receiveMessGroup) {
+                for (ReceiveMess infoitem : receiveMessGroup.getReceiveMessesList())
+                {
+                    receiveMesses.add(0,infoitem);
+                }
+            }
+
+            @Override
+            public void onFail(Exception e) {
+
+            }
+        });
         swipe_refresh_layout.setRefreshing(false);
-       return info;
+       return receiveMesses;
     }
 
 

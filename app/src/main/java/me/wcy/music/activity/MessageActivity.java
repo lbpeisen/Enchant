@@ -18,7 +18,7 @@ public class MessageActivity extends BaseActivity {
         if (!checkServiceAlive()) {
             return;
         }
-        //Fragment
+        //Fragment view
         NewsListFragment newsListFragment = new NewsListFragment();
         getFragmentManager().beginTransaction().replace(R.id.ll_fragment_container,newsListFragment).commit();
     }
