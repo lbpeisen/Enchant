@@ -6,14 +6,30 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wcy.music.R;
 import me.wcy.music.adapter.NewListAdapter;
+import me.wcy.music.application.MusicApplication;
+import me.wcy.music.model.GetMess;
+import me.wcy.music.model.ReceiveMess;
+import okhttp3.Call;
+import okhttp3.MediaType;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 通知
@@ -51,47 +67,43 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
     @Override
     public void onRefresh() {
-//        OkHttpUtils
-//                .postString()
-//                .url(MusicApplication.ip + "enchant/register.action")
-//                .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin, faceToken1)))
-//                .mediaType(MediaType.parse("application/json; charset=utf-8"))
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//                        Log.d(TAG, "onError: register" + call);
-//                        Log.d(TAG, "onError: register" + e);
-//                        Log.d(TAG, "onError: register" + id);
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                        Log.d(TAG, "onResponse: " + response);
-//                        Log.d(TAG, "onResponse: " + response.toString());
-//                        if (response.toString().contains("\"STATUS\":1005")) {
-//
-//                            Log.d(TAG, "onResponse:1111 ");
-//                            Toast.makeText(RegisterActivity.this, "验证码错误", Toast.LENGTH_SHORT).show();
-//                        } else if (response.toString().contains("\"STATUS\":1004")) {
-//
-//                            Log.d(TAG, "onResponse:222 ");
-//                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-//                            animateRevealClose();
-//                        } else if (response.toString().contains("\"STATUS\":1006")) {
-//
-//                            Log.d(TAG, "onResponse:3333 ");
-//                            Toast.makeText(RegisterActivity.this, "未知错误", Toast.LENGTH_SHORT).show();
-//                        } else if (response.toString().contains("\"STATUS\":1003")) {
-//
-//                            Log.d(TAG, "onResponse:3333 ");
-//                            Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//
-//                    }
-//                });
-        newsadapter.network("test");
+        newsadapter.notifyChange(addTest());
+    }
+
+    public ArrayList<ReceiveMess> GetNewInfo(){
+        final ArrayList<ReceiveMess> info = new ArrayList<>();
+        OkHttpUtils
+                .postString()
+                .url(MusicApplication.ip + "enchant/login.action")
+                .content(new Gson().toJson(new GetMess("33")))//local user`s id
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.d(TAG, "onError: " + e);
+                    }
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.d(TAG, "onResponse: " + response);
+                        Type type = new TypeToken<ArrayList<ReceiveMess>>() {}.getType();
+                        ArrayList<ReceiveMess> jsonObjects = new Gson().fromJson(response, type);
+                        for (ReceiveMess infoitem : jsonObjects)
+                        {
+                            info.add(0,infoitem);
+                        }
+                    }
+                });
         swipe_refresh_layout.setRefreshing(false);
+       return info;
+    }
+
+
+    public ArrayList<ReceiveMess> addTest(){
+        ArrayList<ReceiveMess> info = new ArrayList<>();
+        for(int i = 1; i <10 ;i++){
+            info.add(new ReceiveMess("1","1","Title","2016"));
+        }
+        return  info;
     }
 }

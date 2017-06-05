@@ -34,7 +34,7 @@ public class ChatActivity extends BaseActivity {
         }
         Intent intent=getIntent();
         sendID = intent.getStringExtra("SENDID");
-        //Create
+        //Create ChatView
         mChatView.setLeftBubbleColor(Color.WHITE);
         mChatView.setSendIcon(R.drawable.ic_action_send);
         mChatView.setRightMessageTextColor(Color.WHITE);
@@ -46,6 +46,7 @@ public class ChatActivity extends BaseActivity {
         Reflash();
     }
 
+    //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         Message mMessage = new Message.Builder()
