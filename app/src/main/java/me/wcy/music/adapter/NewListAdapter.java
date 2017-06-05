@@ -21,7 +21,6 @@ import me.wcy.music.R;
 import me.wcy.music.activity.ChatActivity;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.GetMess;
-import me.wcy.music.model.NewsInfo;
 import me.wcy.music.model.ReceiveMess;
 import okhttp3.Call;
 import okhttp3.MediaType;
