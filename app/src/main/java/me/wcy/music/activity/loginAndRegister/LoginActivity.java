@@ -89,6 +89,11 @@ public class LoginActivity extends AppCompatActivity {
         sp = getSharedPreferences("ziliao", MODE_PRIVATE);//获得实例对象
         //test git
         //sssss
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("result", "login_fail");
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
         handler = new Handler() {
 
             @Override
@@ -192,6 +197,14 @@ public class LoginActivity extends AppCompatActivity {
 //        new HttpThreadString(handler,getApplicationContext(),map,proDialog).start();
 //        createProgressBar();
 
+        //*************************************
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString("result", "login_ok");
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
+        //*************
         postString()
                 .url(MusicApplication.ip + "enchant/login.action")
                 .content(new Gson().toJson(new User(stUserName, Httputils.md5(stPassWord))))
@@ -205,10 +218,15 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        Intent intent = new Intent();
                         if (response.toString().contains("\"STATUS\":1000")) {
 
                             Log.d(TAG, "onResponse:1111 ");
                             Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("result", "login_ok");
+                            intent.putExtras(bundle);
+                            setResult(RESULT_OK, intent);
                             finish();
                         } else if (response.toString().contains("\"STATUS\":1001")) {
 

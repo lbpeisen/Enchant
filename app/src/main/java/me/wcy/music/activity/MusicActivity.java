@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.permission.PermissionReq;
 import me.wcy.music.utils.permission.PermissionResult;
 import me.wcy.music.utils.permission.Permissions;
+
 
 public class MusicActivity extends BaseActivity implements View.OnClickListener, OnPlayerEventListener,
         NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
@@ -78,6 +80,9 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private ComponentName mRemoteReceiver;
     private boolean isPlayFragmentShow = false;
     private MenuItem timerItem;
+    private MenuItem loginItem;
+    private static final String TAG = "MusicActivity";
+    public static final int REQUEST_CODE_LOGIN = 0x999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,11 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         parseIntent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -247,6 +257,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
         drawerLayout.closeDrawers();
@@ -362,5 +373,31 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             service.setOnPlayEventListener(null);
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_LOGIN) {
+            Bundle b = data.getExtras(); //data为B中回传的Intent
+            String result = b.getString("result");//str即为回传的值
+            Log.d(TAG, "onActivityResult: " + result);
+            if (result.equals("login_ok")) {
+                if (loginItem == null) {
+                    loginItem = navigationView.getMenu().findItem(R.id.action_login);
+                }
+                loginItem.setTitle("注销");
+            } else if (result.equals("login_fail")) {
+                if (loginItem == null) {
+                    loginItem = navigationView.getMenu().findItem(R.id.action_login);
+                }
+                loginItem.setTitle("登陆");
+            }
+
+
+        }
     }
 }
