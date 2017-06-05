@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class OnlineMusicActivity extends BaseActivity implements OnItemClickList
     private OnlineMusicAdapter mAdapter = new OnlineMusicAdapter(mMusicList);
     private ProgressDialog mProgressDialog;
     private int mOffset = 0;
+    private static final String TAG = "OnlineMusicActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
