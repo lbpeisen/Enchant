@@ -301,7 +301,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 OkHttpUtils
                                         .postString()
                                         .url(MusicApplication.ip + "enchant/register.action")
-                                        .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin)))
+                                        .content(new Gson().toJson(new User(st_username, Httputils.md5(st_passwd), st_user, pin)))
                                         .mediaType(MediaType.parse("application/json; charset=utf-8"))
                                         .build()
                                         .execute(new StringCallback() {
@@ -535,13 +535,13 @@ public class RegisterActivity extends AppCompatActivity {
                                             faceToken1 = getFaceToken(response1);
                                             faces.add(faceToken1);
                                             String faceTokens = creatFaceTokens(faces);
-                                            Response faceset = FaceSet.createFaceSet(null,"test",null,faceTokens,null, 1);
+                                            Response faceset = FaceSet.createFaceSet(null, "test", null, faceTokens, null, 1);
                                             Log.d(TAG, "faceToken1aaa" + faceToken1);
                                             animateRevealClose();
                                             OkHttpUtils
                                                     .postString()
                                                     .url(MusicApplication.ip + "enchant/register.action")
-                                                    .content(new Gson().toJson(new User(st_username, st_passwd, st_user, pin, faceToken1)))
+                                                    .content(new Gson().toJson(new User(st_username, Httputils.md5(st_passwd), st_user, pin, faceToken1)))
                                                     .mediaType(MediaType.parse("application/json; charset=utf-8"))
                                                     .build()
                                                     .execute(new StringCallback() {
@@ -673,15 +673,15 @@ public class RegisterActivity extends AppCompatActivity {
         return faceToken;
     }
 
-    private String creatFaceTokens(ArrayList<String> faceTokens){
-        if(faceTokens == null || faceTokens.size() == 0){
+    private String creatFaceTokens(ArrayList<String> faceTokens) {
+        if (faceTokens == null || faceTokens.size() == 0) {
             return "";
         }
         StringBuffer face = new StringBuffer();
-        for (int i = 0; i < faceTokens.size(); i++){
-            if(i == 0){
+        for (int i = 0; i < faceTokens.size(); i++) {
+            if (i == 0) {
                 face.append(faceTokens.get(i));
-            }else{
+            } else {
                 face.append(",");
                 face.append(faceTokens.get(i));
             }

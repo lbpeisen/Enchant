@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.megvii.cloud.http.CommonOperate;
 import com.megvii.cloud.http.Response;
@@ -42,6 +39,7 @@ import me.wcy.music.R;
 import me.wcy.music.activity.face.FaceDetectGrayActivity;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.User;
+import me.wcy.music.utils.Httputils;
 import okhttp3.Call;
 import okhttp3.MediaType;
 
@@ -196,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
 
         postString()
                 .url(MusicApplication.ip + "enchant/login.action")
-                .content(new Gson().toJson(new User(stUserName, stPassWord)))
+                .content(new Gson().toJson(new User(stUserName, Httputils.md5(stPassWord))))
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
                 .execute(new StringCallback() {
