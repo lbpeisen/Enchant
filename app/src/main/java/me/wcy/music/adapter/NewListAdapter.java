@@ -3,16 +3,30 @@ package me.wcy.music.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 
 import me.wcy.music.R;
 import me.wcy.music.activity.AboutActivity;
+import me.wcy.music.activity.ChatActivity;
+import me.wcy.music.activity.loginAndRegister.LoginActivity;
+import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.NewsInfo;
+import me.wcy.music.model.User;
+import okhttp3.Call;
+import okhttp3.MediaType;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
@@ -59,7 +73,7 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     //启动
-                    Intent userActivity = new Intent(itemView.getContext(), AboutActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent userActivity = new Intent(itemView.getContext(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     itemView.getContext().startActivity(userActivity);
                 }
             });
@@ -83,6 +97,26 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void network(String url){
         info = addTest();
+//        OkHttpUtils
+//                .postString()
+//                .url(MusicApplication.ip + "enchant/login.action")
+////                                    .content(new Gson().toJson(new User("c07d3f2f8d6dcaa9d5ba9b8beaa4291")))
+//                .content(new Gson().toJson(new User(faceToken1)))
+//                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        Log.d(TAG, "onError: " + e);
+//                    }
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        Log.d(TAG, "onResponse: " + response);
+//                        if (response.toString().contains("\"STATUS\":1000")) {
+//
+//                        }
+//                    }
+//                });
         notifyDataSetChanged();
     }
 }

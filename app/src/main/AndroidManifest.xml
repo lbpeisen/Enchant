@@ -101,8 +101,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MessageActivity"
-            android:label="@string/messinfo"
+            android:label="@string/mess_info"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.ChatActivity"
+            android:label="@string/mess_content" />
+
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/menu_about"

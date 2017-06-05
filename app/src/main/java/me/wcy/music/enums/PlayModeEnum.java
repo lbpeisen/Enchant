@@ -9,6 +9,7 @@ public enum PlayModeEnum {
     SHUFFLE(1),
     SINGLE(2);
 
+
     private int value;
 
     PlayModeEnum(int value) {

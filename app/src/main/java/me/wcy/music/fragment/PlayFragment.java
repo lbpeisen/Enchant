@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -18,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.ldoublem.thumbUplib.ThumbUpView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,6 +78,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private ImageView ivNext;
     @Bind(R.id.iv_prev)
     private ImageView ivPrev;
+    @Bind(R.id.tpv)
+    private ThumbUpView mThumbUpView;
+
     private AlbumCoverView mAlbumCoverView;
     private LrcView mLrcViewSingle;
     private LrcView mLrcViewFull;
@@ -114,6 +121,19 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         sbProgress.setOnSeekBarChangeListener(this);
         sbVolume.setOnSeekBarChangeListener(this);
         vpPlay.setOnPageChangeListener(this);
+        //点赞按钮
+        mThumbUpView.setUnLikeType(ThumbUpView.LikeType.unlike);
+        mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
+            @Override
+            public void like(boolean like) {
+                //点赞详细操作
+                if(like) {
+                    ToastUtils.show(R.string.like);
+                }else {
+                    ToastUtils.show(R.string.unlike);
+                }
+            }
+        });
     }
 
     /**
