@@ -201,10 +201,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("result", "login_ok");
+        bundle.putString("username", stUserName);
         intent.putExtras(bundle);
         setResult(RESULT_OK, intent);
         finish();
-        //*************
+        //*****************************************
         postString()
                 .url(MusicApplication.ip + "enchant/login.action")
                 .content(new Gson().toJson(new User(stUserName, Httputils.md5(stPassWord))))

@@ -33,41 +33,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--MaterialViewPager-->
-    <style name="ProfileAppBaseTheme" parent="@style/Theme.AppCompat.Light">
-    </style>
 
-    <style name="ProfileAppTheme" parent="ProfileAppBaseTheme">
+    <!--profile-->
 
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
-
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="actionBarTheme">@style/ProfileAppTheme.ActionBarTheme</item>
-
-        <!-- Material Theme -->
+    <style name="AppTheme.StatusBarTransparent" parent="ProfileAppTheme" />
+    <!-- Base application theme. -->
+    <style name="ProfileAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent_color</item>
-
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
-
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="android:actionMenuTextColor">@color/colorAccent</item>
     </style>
 
-    <style name="ProfileAppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- White arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
-    </style>
+    <!--profile-->
 
-    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@color/drawerArrowColor</item>
-    </style>
 </resources>

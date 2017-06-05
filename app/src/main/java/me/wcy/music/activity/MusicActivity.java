@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import me.wcy.music.R;
 import me.wcy.music.adapter.FragmentAdapter;
@@ -71,6 +70,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.iv_play_bar_next)
     private ImageView ivPlayBarNext;
     @Bind(R.id.pb_play_bar)
+    public TextView profile_tv;
     private ProgressBar mProgressBar;
     private View vNavigationHeader;
     private LocalMusicFragment mLocalMusicFragment;
@@ -130,7 +130,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         // add navigation header
         vNavigationHeader = LayoutInflater.from(this).inflate(R.layout.drawer_header, navigationView, false);
         navigationView.addHeaderView(vNavigationHeader);
-
+        profile_tv = (TextView) vNavigationHeader.findViewById(R.id.profile_tv);
         // setup view pager
         mLocalMusicFragment = new LocalMusicFragment();
         mSongListFragment = new SongListFragment();
@@ -142,8 +142,8 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         vNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MusicActivity.this, "aaa", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MusicActivity.this, ProfileActivity.class));
+                drawerLayout.closeDrawers();
+                startActivity(new Intent(MusicActivity.this, ProfileAcitivity.class));
             }
         });
     }
@@ -184,7 +184,8 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
      */
     @Override
     public void onPublish(int progress) {
-        mProgressBar.setProgress(progress);
+        if (mProgressBar != null)
+            mProgressBar.setProgress(progress);
         if (mPlayFragment != null) {
             mPlayFragment.onPublish(progress);
         }
@@ -303,8 +304,11 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         } else {
             ivPlayBarPlay.setSelected(false);
         }
-        mProgressBar.setMax((int) music.getDuration());
-        mProgressBar.setProgress(0);
+        if (mProgressBar != null) {
+            mProgressBar.setMax((int) music.getDuration());
+            mProgressBar.setProgress(0);
+        }
+
 
         if (mLocalMusicFragment != null) {
             mLocalMusicFragment.onItemPlay();
@@ -384,17 +388,20 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         if (requestCode == REQUEST_CODE_LOGIN) {
             Bundle b = data.getExtras(); //data为B中回传的Intent
             String result = b.getString("result");//str即为回传的值
+            String username = b.getString("username");
             Log.d(TAG, "onActivityResult: " + result);
             if (result.equals("login_ok")) {
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);
                 }
                 loginItem.setTitle("注销");
+                profile_tv.setText(username);
             } else if (result.equals("login_fail")) {
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);
                 }
                 loginItem.setTitle("登陆");
+                profile_tv.setText("");
             }
 
 

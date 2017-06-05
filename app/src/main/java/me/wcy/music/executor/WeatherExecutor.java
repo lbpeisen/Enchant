@@ -114,6 +114,9 @@ public class WeatherExecutor implements IExecutor, AMapLocalWeatherListener {
     }
 
     private void updateView(AMapLocalWeatherLive aMapLocalWeatherLive) {
+        if (llWeather == null) {
+            return;
+        }
         llWeather.setVisibility(View.VISIBLE);
         ivIcon.setImageResource(getWeatherIcon(aMapLocalWeatherLive.getWeather()));
         tvTemp.setText(mContext.getString(R.string.weather_temp, aMapLocalWeatherLive.getTemperature()));
