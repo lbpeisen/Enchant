@@ -88,7 +88,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         for(int i = 1; i <10 ;i++){
             info.add(new ReceiveMess("1","1","Title","2016"));
         }
-       this.receiveMesses = info;
+        this.receiveMesses = info;
         swipe_refresh_layout.setRefreshing(false);
     }
 }
