@@ -4,14 +4,11 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.FileCallBack;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import me.wcy.music.application.MusicApplication;
@@ -30,7 +27,6 @@ import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by hzwangchenyan on 2017/2/8.
@@ -287,5 +283,4 @@ public class HttpClient {
                     }
                 });
     }
-
 }

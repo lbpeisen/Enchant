@@ -49,7 +49,8 @@ public class ChatActivity extends BaseActivity {
         mChatView.setSendTimeTextColor(Color.BLACK);
         mChatView.setDateSeparatorColor(Color.WHITE);
         //
-        Reflash();
+        //Reflash();
+        addTest();
     }
 
     //Get the information
@@ -71,7 +72,7 @@ public class ChatActivity extends BaseActivity {
             }
             @Override
             public void onFail(Exception e) {
-                Log.i("Get chat message error",e.getMessage());
+                Log.i("getChatError",e.getMessage());
             }
         });
     }
@@ -89,6 +90,4 @@ public class ChatActivity extends BaseActivity {
             mChatView.receive(mMessage);
         }
     }
-
-
 }

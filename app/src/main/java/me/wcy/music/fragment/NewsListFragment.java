@@ -11,28 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wcy.music.R;
 import me.wcy.music.adapter.NewListAdapter;
-import me.wcy.music.application.MusicApplication;
 import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
-import me.wcy.music.model.GetMess;
 import me.wcy.music.model.ReceiveMess;
 import me.wcy.music.model.ReceiveMessGroup;
-import okhttp3.Call;
-import okhttp3.MediaType;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 通知
@@ -74,6 +62,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
     @Override
     public void onRefresh() {
         addTest();
+        newsadapter.notifyChange(this.receiveMesses);
     }
 
 
@@ -88,7 +77,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
             @Override
             public void onFail(Exception e) {
-
+                Log.i("getNewsListError",e.getMessage());
             }
         });
     }

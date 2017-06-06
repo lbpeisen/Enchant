@@ -70,7 +70,7 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return info.size();
     }
 
-    public  void notifyChange(ArrayList<ReceiveMess> receiveMesses){
+    public void notifyChange(ArrayList<ReceiveMess> receiveMesses){
         this.info = receiveMesses;
         notifyDataSetChanged();
     }
