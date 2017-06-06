@@ -87,8 +87,6 @@ public class LoginActivity extends AppCompatActivity {
         imgss = (ImageView) findViewById(R.id.imagesss);
         tv_losepasswd = (TextView) findViewById(R.id.tv_losepasswd);
         sp = getSharedPreferences("ziliao", MODE_PRIVATE);//获得实例对象
-        //test git
-        //sssss
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("result", "login_fail");
@@ -189,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 
 
-    private void TestLogin(String stUserName, String stPassWord) {
+    private void TestLogin(final String stUserName, String stPassWord) {
 //        Map map=new HashMap();
 //        map.put("method","login.php");
 //        map.put("login_mail", "" + stUserName);
@@ -226,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
                             Bundle bundle = new Bundle();
                             bundle.putString("result", "login_ok");
+                            bundle.putString("username", stUserName);
                             intent.putExtras(bundle);
                             setResult(RESULT_OK, intent);
                             finish();
@@ -236,6 +235,8 @@ public class LoginActivity extends AppCompatActivity {
                         } else if (response.toString().contains("\"STATUS\":1002")) {
                             Log.d(TAG, "onResponse:222 ");
                             Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "未知错误，请联系管理员", Toast.LENGTH_SHORT).show();
                         }
 
                     }

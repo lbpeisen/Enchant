@@ -10,6 +10,8 @@ public class User {
     String name;
     String code;
     String token;
+    int avator;
+
 
     public User(String token) {
         this.token = token;
