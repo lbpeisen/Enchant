@@ -2,11 +2,13 @@ package me.wcy.music.http;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.FileCallBack;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.ArtistInfo;
 import me.wcy.music.model.ChatMessageGroup;
+import me.wcy.music.model.CollectMusic;
 import me.wcy.music.model.DownloadInfo;
 import me.wcy.music.model.GetChat;
 import me.wcy.music.model.GetMess;
@@ -26,6 +29,8 @@ import me.wcy.music.model.Splash;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
@@ -280,6 +285,26 @@ public class HttpClient {
                     @Override
                     public void onBefore(Request request, int id) {
                         callback.onFinish();
+                    }
+                });
+    }
+
+    public static void collectMusic(String localID,String localMusicID,String like,final HttpCallback<String> callback) {
+        OkHttpUtils
+                .postString()
+                .url(MusicApplication.ip + "enchant/login.action")
+                .content(new Gson().toJson(new CollectMusic(localID,localMusicID,like)))//local user`s id and remote user`s id
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callback.onFail(e);
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        callback.onSuccess(response);
                     }
                 });
     }

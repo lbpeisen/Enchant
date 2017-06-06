@@ -22,6 +22,7 @@
     <string name="mode_one">单曲循环</string>
     <string name="like">喜欢</string>
     <string name="unlike">不喜欢</string>
+    <string name="network_error">网络错误</string>
     <string name="play_time_start">00:00</string>
     <string name="now_play">正在播放：%s</string>
     <string name="now_download">正在下载：%s</string>
