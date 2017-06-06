@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import me.wcy.music.R;
 import me.wcy.music.adapter.FragmentAdapter;
 import me.wcy.music.application.AppCache;
@@ -39,6 +41,7 @@ import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.permission.PermissionReq;
 import me.wcy.music.utils.permission.PermissionResult;
 import me.wcy.music.utils.permission.Permissions;
+import me.wcy.music.widget.CircleImageView;
 
 
 public class MusicActivity extends BaseActivity implements View.OnClickListener, OnPlayerEventListener,
@@ -82,6 +85,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private MenuItem timerItem;
     private MenuItem loginItem;
     private String username;
+    private CircleImageView circleimg;
     private String avatarURL;
     private static final String TAG = "MusicActivity";
     public static final int REQUEST_CODE_LOGIN = 0x999;
@@ -102,6 +106,13 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
+        initProfile();
+    }
+
+    private void initProfile() {
+        Glide.with(this)
+                .load("http://www.lovexn.top/img/80948.jpg")
+                .into(circleimg);
     }
 
     @Override
@@ -133,6 +144,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         vNavigationHeader = LayoutInflater.from(this).inflate(R.layout.drawer_header, navigationView, false);
         navigationView.addHeaderView(vNavigationHeader);
         profile_tv = (TextView) vNavigationHeader.findViewById(R.id.profile_tv);
+        circleimg = (CircleImageView) vNavigationHeader.findViewById(R.id.circleimg);
         // setup view pager
         mLocalMusicFragment = new LocalMusicFragment();
         mSongListFragment = new SongListFragment();
