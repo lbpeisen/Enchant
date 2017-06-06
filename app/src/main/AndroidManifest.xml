@@ -29,8 +29,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -116,12 +115,25 @@
         <activity android:name=".activity.loginAndRegister.LostPasswdActivity" />
         <activity android:name=".activity.loginAndRegister.RegisterActivity" />
         <activity
-            android:name=".activity.ProfileActivity"
-            android:theme="@style/ProfileAppTheme" >
+            android:name=".activity.ProfileAcitivity"
+            android:theme="@style/AppTheme.StatusBarTransparent">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.DrawerActivity"/>
-            </activity>
+                android:value=".activity.MusicActivity" />
+
+        </activity>
+
+        <activity
+            android:name=".activity.AvatarActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ProfileAcitivity" />
+
+        </activity>
+
         <activity
             android:name=".activity.face.FaceDetectGrayActivity"
             android:theme="@style/LoginTheme" />

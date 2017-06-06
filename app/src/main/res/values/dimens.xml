@@ -7,4 +7,13 @@
     <dimen name="screen_tips_top">80dp</dimen>
     <dimen name="divider_height">0.5dp</dimen>
     <dimen name="image_preview">60dp</dimen>
+
+    <!--profile-->
+    <dimen name="header_view_start_margin_left">16dp</dimen>
+    <dimen name="header_view_end_margin_left">40dp</dimen>
+    <dimen name="header_view_end_margin_right">14dp</dimen>
+    <dimen name="header_view_start_margin_bottom">14dp</dimen>
+    <dimen name="header_view_start_text_size">32sp</dimen>
+    <dimen name="header_view_end_text_size">18sp</dimen>
+    <!--profile-->
 </resources>

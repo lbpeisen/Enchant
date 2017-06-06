@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import me.wcy.music.R;
 import me.wcy.music.adapter.FragmentAdapter;
@@ -39,6 +39,7 @@ import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.permission.PermissionReq;
 import me.wcy.music.utils.permission.PermissionResult;
 import me.wcy.music.utils.permission.Permissions;
+
 
 public class MusicActivity extends BaseActivity implements View.OnClickListener, OnPlayerEventListener,
         NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
@@ -69,6 +70,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.iv_play_bar_next)
     private ImageView ivPlayBarNext;
     @Bind(R.id.pb_play_bar)
+    public TextView profile_tv;
     private ProgressBar mProgressBar;
     private View vNavigationHeader;
     private LocalMusicFragment mLocalMusicFragment;
@@ -78,6 +80,11 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private ComponentName mRemoteReceiver;
     private boolean isPlayFragmentShow = false;
     private MenuItem timerItem;
+    private MenuItem loginItem;
+    private String username;
+    private String avatarURL;
+    private static final String TAG = "MusicActivity";
+    public static final int REQUEST_CODE_LOGIN = 0x999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,11 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void setListener() {
         ivMenu.setOnClickListener(this);
         ivSearch.setOnClickListener(this);
@@ -120,7 +132,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         // add navigation header
         vNavigationHeader = LayoutInflater.from(this).inflate(R.layout.drawer_header, navigationView, false);
         navigationView.addHeaderView(vNavigationHeader);
-
+        profile_tv = (TextView) vNavigationHeader.findViewById(R.id.profile_tv);
         // setup view pager
         mLocalMusicFragment = new LocalMusicFragment();
         mSongListFragment = new SongListFragment();
@@ -132,8 +144,18 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         vNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MusicActivity.this, "aaa", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MusicActivity.this, ProfileActivity.class));
+                drawerLayout.closeDrawers();
+                Intent intent = new Intent(MusicActivity.this, ProfileAcitivity.class);
+                intent.putExtra("username", username);
+                if (username == null) {
+                    ToastUtils.show("请先登录");
+//                    return;
+                }
+                if (avatarURL == null) {
+                    avatarURL = "http://www.lovexn.top/img/1.png";
+                }
+                intent.putExtra("avatar", avatarURL);
+                startActivity(intent);
             }
         });
     }
@@ -174,7 +196,8 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
      */
     @Override
     public void onPublish(int progress) {
-        mProgressBar.setProgress(progress);
+        if (mProgressBar != null)
+            mProgressBar.setProgress(progress);
         if (mPlayFragment != null) {
             mPlayFragment.onPublish(progress);
         }
@@ -247,6 +270,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
         drawerLayout.closeDrawers();
@@ -292,8 +316,11 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         } else {
             ivPlayBarPlay.setSelected(false);
         }
-        mProgressBar.setMax((int) music.getDuration());
-        mProgressBar.setProgress(0);
+        if (mProgressBar != null) {
+            mProgressBar.setMax((int) music.getDuration());
+            mProgressBar.setProgress(0);
+        }
+
 
         if (mLocalMusicFragment != null) {
             mLocalMusicFragment.onItemPlay();
@@ -362,5 +389,35 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             service.setOnPlayEventListener(null);
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_LOGIN) {
+            Bundle b = data.getExtras(); //data为B中回传的Intent
+            String result = b.getString("result");//str即为回传的值
+            String usernames = b.getString("username");
+            Log.d(TAG, "onActivityResult: " + result);
+            if (result.equals("login_ok")) {
+                if (loginItem == null) {
+                    loginItem = navigationView.getMenu().findItem(R.id.action_login);
+                }
+                loginItem.setTitle("注销");
+                profile_tv.setText(usernames);
+                username = usernames;
+            } else if (result.equals("login_fail")) {
+                if (loginItem == null) {
+                    loginItem = navigationView.getMenu().findItem(R.id.action_login);
+                }
+                loginItem.setTitle("登陆");
+                profile_tv.setText("");
+            }
+
+
+        }
     }
 }
