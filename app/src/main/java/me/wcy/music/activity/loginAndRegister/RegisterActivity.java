@@ -187,6 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(TAG, "onResponse: onResponse: : 2333333 onError");
                                     Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + id);
                                     Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + MusicApplication.ip + "enchant/getCode.action");
+                                    Log.d(TAG, "onResponse: onResponse: : 2333333 onError" + e);
                                 }
 
                                 @Override

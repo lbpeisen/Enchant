@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <me.wcy.music.widget.CircleImageView
-        android:id="@+id/ccc"
+        android:id="@+id/circleimg"
         android:layout_width="76dp"
         android:layout_height="76dp"
         android:layout_alignParentLeft="true"
