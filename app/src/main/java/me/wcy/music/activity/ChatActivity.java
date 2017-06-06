@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,10 @@ import jp.bassaer.chatmessageview.models.Message;
 import jp.bassaer.chatmessageview.views.ChatView;
 import jp.bassaer.chatmessageview.views.MessageView;
 import me.wcy.music.R;
+import me.wcy.music.http.HttpCallback;
+import me.wcy.music.http.HttpClient;
+import me.wcy.music.model.ChatMessage;
+import me.wcy.music.model.ChatMessageGroup;
 import me.wcy.music.utils.binding.Bind;
 
 /**
@@ -49,6 +54,29 @@ public class ChatActivity extends BaseActivity {
     //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        HttpClient.getChat("", "", new HttpCallback<ChatMessageGroup>() {
+            @Override
+            public void onSuccess(ChatMessageGroup chatMessageGroup) {
+                for(ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
+                    Message mMessageBuilder = new Message.Builder()
+                            .setMessageText(chatMessage.getContent())
+                            .setUserName(chatMessage.getTitle())
+                            .setRightMessage(false)
+                            .setUserIcon(myIcon)
+                            .setDateCell(true)
+                            .build();
+                    mChatView.receive(mMessageBuilder);
+                }
+            }
+            @Override
+            public void onFail(Exception e) {
+                Log.i("Get chat message error",e.getMessage());
+            }
+        });
+    }
+
+    public void addTest(){
+        final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         Message mMessage = new Message.Builder()
                 .setMessageText("This is a content")
                 .setUserIcon(myIcon)
@@ -59,7 +87,7 @@ public class ChatActivity extends BaseActivity {
         for (int i = 0; i < 5 ;i++){
             mChatView.receive(mMessage);
         }
-
     }
+
 
 }

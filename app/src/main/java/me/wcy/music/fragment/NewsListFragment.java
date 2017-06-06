@@ -45,6 +45,9 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
     @Bind(R.id.cardList_news)
     RecyclerView mRecyclerView;
     NewListAdapter newsadapter;
+    ArrayList<ReceiveMess> receiveMesses;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -70,20 +73,17 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
     @Override
     public void onRefresh() {
-        newsadapter.notifyChange(addTest());
+        addTest();
     }
 
 
     //Get ReceiveMessage
-    public ArrayList<ReceiveMess> GetNewInfo(){
-        final ArrayList<ReceiveMess> receiveMesses = new ArrayList<>();
-        HttpClient.getReceiveMess("33", new HttpCallback<ReceiveMessGroup>() {
+    public void GetNewInfo(String localID){
+        HttpClient.getReceiveMess(localID, new HttpCallback<ReceiveMessGroup>() {
             @Override
             public void onSuccess(ReceiveMessGroup receiveMessGroup) {
-                for (ReceiveMess infoitem : receiveMessGroup.getReceiveMessesList())
-                {
-                    receiveMesses.add(0,infoitem);
-                }
+                receiveMesses = receiveMessGroup.getReceiveMessesList();
+                swipe_refresh_layout.setRefreshing(false);
             }
 
             @Override
@@ -91,16 +91,15 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
             }
         });
-        swipe_refresh_layout.setRefreshing(false);
-       return receiveMesses;
     }
 
 
-    public ArrayList<ReceiveMess> addTest(){
+    public void addTest(){
         ArrayList<ReceiveMess> info = new ArrayList<>();
         for(int i = 1; i <10 ;i++){
             info.add(new ReceiveMess("1","1","Title","2016"));
         }
-        return  info;
+       this.receiveMesses = info;
+        swipe_refresh_layout.setRefreshing(false);
     }
 }

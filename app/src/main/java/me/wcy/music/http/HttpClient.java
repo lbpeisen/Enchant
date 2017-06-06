@@ -16,7 +16,9 @@ import java.util.ArrayList;
 
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.ArtistInfo;
+import me.wcy.music.model.ChatMessageGroup;
 import me.wcy.music.model.DownloadInfo;
+import me.wcy.music.model.GetChat;
 import me.wcy.music.model.GetMess;
 import me.wcy.music.model.Lrc;
 import me.wcy.music.model.OnlineMusicList;
@@ -237,7 +239,7 @@ public class HttpClient {
         OkHttpUtils
                 .postString()
                 .url(MusicApplication.ip + "enchant/login.action")
-                .content(new Gson().toJson(new GetMess("33")))//local user`s id
+                .content(new Gson().toJson(new GetMess(localID)))//local user`s id
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
                 .execute(new JsonCallback<ReceiveMessGroup>(ReceiveMessGroup.class) {
@@ -256,6 +258,33 @@ public class HttpClient {
                              public void onBefore(Request request, int id) {
                                 callback.onFinish();
                               }
+                });
+    }
+
+    public  static void getChat(String localID,String remoteID,final  HttpCallback<ChatMessageGroup> callback ){
+        final ArrayList<ReceiveMess> receiveMesses = new ArrayList<>();
+        OkHttpUtils
+                .postString()
+                .url(MusicApplication.ip + "enchant/login.action")
+                .content(new Gson().toJson(new GetChat(localID,remoteID)))//local user`s id and remote user`s id
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new JsonCallback<ChatMessageGroup>(ChatMessageGroup.class) {
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callback.onFail(e);
+                    }
+
+                    @Override
+                    public void onResponse(ChatMessageGroup response, int id) {
+                        callback.onSuccess(response);
+                    }
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        callback.onFinish();
+                    }
                 });
     }
 
