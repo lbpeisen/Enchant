@@ -29,7 +29,8 @@ public class ChatActivity extends BaseActivity {
     @Bind(R.id.chat_view)
     ChatView mChatView;
     //User icon
-    private String sendID;
+    private String remoteID;
+    private String localID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class ChatActivity extends BaseActivity {
             return;
         }
         Intent intent=getIntent();
-        sendID = intent.getStringExtra("SENDID");
+        remoteID = intent.getStringExtra("REMOTEID");
         //Create ChatView
         mChatView.setLeftBubbleColor(Color.WHITE);
         mChatView.setSendIcon(R.drawable.ic_action_send);
@@ -54,7 +55,7 @@ public class ChatActivity extends BaseActivity {
     //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
-        HttpClient.getChat("", "", new HttpCallback<ChatMessageGroup>() {
+        HttpClient.getChat("", remoteID, new HttpCallback<ChatMessageGroup>() {
             @Override
             public void onSuccess(ChatMessageGroup chatMessageGroup) {
                 for(ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
@@ -80,7 +81,7 @@ public class ChatActivity extends BaseActivity {
         Message mMessage = new Message.Builder()
                 .setMessageText("This is a content")
                 .setUserIcon(myIcon)
-                .setUserName(sendID)
+                .setUserName(remoteID)
                 .setRightMessage(false)
                 .setDateCell(true)
                 .build();
