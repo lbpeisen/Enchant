@@ -196,13 +196,13 @@ public class LoginActivity extends AppCompatActivity {
 //        createProgressBar();
 
         //*************************************
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putString("result", "login_ok");
-        bundle.putString("username", stUserName);
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
-        finish();
+//        Intent intent = new Intent();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("result", "login_ok");
+//        bundle.putString("username", stUserName);
+//        intent.putExtras(bundle);
+//        setResult(RESULT_OK, intent);
+//        finish();
         //*****************************************
         postString()
                 .url(MusicApplication.ip + "enchant/login.action")
@@ -218,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response, int id) {
                         Intent intent = new Intent();
+                        Log.d(TAG, "onResponse: " + response);
                         if (response.toString().contains("\"STATUS\":1000")) {
 
                             Log.d(TAG, "onResponse:1111 ");
