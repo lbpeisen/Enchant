@@ -81,6 +81,8 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private boolean isPlayFragmentShow = false;
     private MenuItem timerItem;
     private MenuItem loginItem;
+    private String username;
+    private String avatarURL;
     private static final String TAG = "MusicActivity";
     public static final int REQUEST_CODE_LOGIN = 0x999;
 
@@ -143,7 +145,17 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-                startActivity(new Intent(MusicActivity.this, ProfileAcitivity.class));
+                Intent intent = new Intent(MusicActivity.this, ProfileAcitivity.class);
+                intent.putExtra("username", username);
+                if (username == null) {
+                    ToastUtils.show("请先登录");
+//                    return;
+                }
+                if (avatarURL == null) {
+                    avatarURL = "http://www.lovexn.top/img/1.png";
+                }
+                intent.putExtra("avatar", avatarURL);
+                startActivity(intent);
             }
         });
     }
@@ -388,14 +400,15 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         if (requestCode == REQUEST_CODE_LOGIN) {
             Bundle b = data.getExtras(); //data为B中回传的Intent
             String result = b.getString("result");//str即为回传的值
-            String username = b.getString("username");
+            String usernames = b.getString("username");
             Log.d(TAG, "onActivityResult: " + result);
             if (result.equals("login_ok")) {
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);
                 }
                 loginItem.setTitle("注销");
-                profile_tv.setText(username);
+                profile_tv.setText(usernames);
+                username = usernames;
             } else if (result.equals("login_fail")) {
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);

@@ -125,6 +125,16 @@
         </activity>
 
         <activity
+            android:name=".activity.AvatarActivity"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ProfileAcitivity" />
+
+        </activity>
+
+        <activity
             android:name=".activity.face.FaceDetectGrayActivity"
             android:theme="@style/LoginTheme" />
 
