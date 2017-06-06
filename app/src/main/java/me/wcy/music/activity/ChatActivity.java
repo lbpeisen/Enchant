@@ -1,5 +1,6 @@
 package me.wcy.music.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -23,7 +24,7 @@ public class ChatActivity extends BaseActivity {
     @Bind(R.id.chat_view)
     ChatView mChatView;
     //User icon
-
+    private String sendID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +32,9 @@ public class ChatActivity extends BaseActivity {
         if (!checkServiceAlive()) {
             return;
         }
-
-        //Create
+        Intent intent=getIntent();
+        sendID = intent.getStringExtra("SENDID");
+        //Create ChatView
         mChatView.setLeftBubbleColor(Color.WHITE);
         mChatView.setSendIcon(R.drawable.ic_action_send);
         mChatView.setRightMessageTextColor(Color.WHITE);
@@ -44,12 +46,13 @@ public class ChatActivity extends BaseActivity {
         Reflash();
     }
 
+    //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         Message mMessage = new Message.Builder()
                 .setMessageText("This is a content")
                 .setUserIcon(myIcon)
-                .setUserName("系统通知")
+                .setUserName(sendID)
                 .setRightMessage(false)
                 .setDateCell(true)
                 .build();

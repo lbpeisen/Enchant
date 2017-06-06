@@ -1,5 +1,6 @@
 package me.wcy.music.executor;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,7 +29,8 @@ public class NaviMenuExecutor {
     public static boolean onNavigationItemSelected(MenuItem item, Context context) {
         switch (item.getItemId()) {
             case R.id.action_login:
-                startActivity(context, LoginActivity.class);
+                Intent intent = new Intent(context, LoginActivity.class);
+                ((Activity) context).startActivityForResult(intent, 0x999);
                 return true;
             case R.id.action_info:
                 startActivity(context, MessageActivity.class);
