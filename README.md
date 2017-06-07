@@ -1,15 +1,6 @@
 # enchat
 ![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)
 
-## 系列文章
-- [Android开源在线音乐播放器——波尼音乐](http://www.jianshu.com/p/1c0f5c4f64fa)
-- [Android开源音乐播放器之播放器基本功能](http://www.jianshu.com/p/bc2f779a5400)
-- [Android开源音乐播放器之高仿云音乐黑胶唱片](http://www.jianshu.com/p/f1d8eb8bb3e5)
-- [Android开源音乐播放器之自动滚动歌词](http://www.jianshu.com/p/0feb6171b0c5)
-- [Android开源音乐播放器之在线音乐列表自动加载更多](http://www.jianshu.com/p/576564627c96)
-
-
-
 ## 项目
 ### 公开API
 - 在线音乐：[百度音乐](http://mrasong.com/a/baidu-mp3-api-full)
@@ -92,20 +83,3 @@ protected void onDraw(Canvas canvas) {
     }
 }
 ```
-
-
-## License
-
-    Copyright 2016 wangchenyan
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
