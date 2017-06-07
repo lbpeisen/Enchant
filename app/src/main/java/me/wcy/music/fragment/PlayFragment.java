@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
@@ -46,6 +47,8 @@ import me.wcy.music.utils.ToastUtils;
 import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.widget.AlbumCoverView;
 import me.wcy.music.widget.IndicatorLayout;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 正在播放界面
@@ -91,15 +94,20 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private AudioManager mAudioManager;
     private List<View> mViewPagerContent;
     private int mLastProgress;
+    private SharedPreferences sp;
+    private String localid;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
+        localid = sp.getString("id", "defaultid");
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
 
     @Override
     protected void init() {
+
         initSystemBar();
         initViewPager();
         ilIndicator.create(mViewPagerContent.size());
@@ -427,7 +435,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                     }else {
                         ifLike = "2";
                 }
-                HttpClient.collectMusic("localid", remoteMusicID,ifLike, new HttpCallback<String>() {
+                HttpClient.collectMusic(localid, remoteMusicID,ifLike, new HttpCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if (s.contains("\"STATUS\":1000")) {
