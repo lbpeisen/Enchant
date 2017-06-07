@@ -47,7 +47,7 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     //启动
                     Intent userActivity = new Intent(itemView.getContext(), ChatActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    userActivity.putExtra("SENDID",remoteID);
+                    userActivity.putExtra("REMOTEID",remoteID);
                     itemView.getContext().startActivity(userActivity);
                 }
             });
@@ -70,13 +70,9 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return info.size();
     }
 
-    public  void notifyChange(ArrayList<ReceiveMess> receiveMesses){
+    public void notifyChange(ArrayList<ReceiveMess> receiveMesses){
         this.info = receiveMesses;
         notifyDataSetChanged();
     }
-
-
-
-
 }
 
