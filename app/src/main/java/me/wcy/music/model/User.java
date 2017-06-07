@@ -27,6 +27,14 @@ public class User {
         this.id = id;
     }
 
+    public User(String email, String name, String token, int avatar, int id) {
+        this.email = email;
+        this.name = name;
+        this.token = token;
+        this.avatar = avatar;
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }
