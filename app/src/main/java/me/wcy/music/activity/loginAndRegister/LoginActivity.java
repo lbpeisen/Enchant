@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         imgss = (ImageView) findViewById(R.id.imagesss);
         tv_losepasswd = (TextView) findViewById(R.id.tv_losepasswd);
-        sp = getSharedPreferences("ziliao", MODE_PRIVATE);//获得实例对象
+        sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
         bundle.putString("result", "login_fail");
@@ -221,6 +221,13 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, "onResponse: " + response);
                         if (response.toString().contains("\"STATUS\":1000")) {
 
+                            Gson gson = new Gson();
+                            User user = gson.fromJson(response, User.class);
+                            sp.edit().putString("email", stUserName).commit();
+                            sp.edit().putString("name", user.getName()).commit();
+                            sp.edit().putInt("id", user.getId()).commit();
+                            sp.edit().putInt("avatar", user.getAvator()).commit();
+                            MusicApplication.login();
                             Log.d(TAG, "onResponse:1111 ");
                             Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
                             Bundle bundle = new Bundle();

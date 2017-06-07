@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 
 import me.wcy.music.R;
@@ -16,9 +17,12 @@ import me.wcy.music.activity.MusicActivity;
 import me.wcy.music.activity.SettingActivity;
 import me.wcy.music.activity.loginAndRegister.LoginActivity;
 import me.wcy.music.application.AppCache;
+import me.wcy.music.application.MusicApplication;
 import me.wcy.music.service.PlayService;
 import me.wcy.music.utils.Preferences;
 import me.wcy.music.utils.ToastUtils;
+
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 导航菜单执行器
@@ -31,6 +35,10 @@ public class NaviMenuExecutor {
             case R.id.action_login:
                 Intent intent = new Intent(context, LoginActivity.class);
                 ((Activity) context).startActivityForResult(intent, 0x999);
+                if (MusicApplication.getLoginState() == 1) {
+                    MusicApplication.logout();
+                }
+                Log.d(TAG, "onNavigationItemSelected: " + MusicApplication.getLoginState());
                 return true;
             case R.id.action_info:
                 startActivity(context, MessageActivity.class);
