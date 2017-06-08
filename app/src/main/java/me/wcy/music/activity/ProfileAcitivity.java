@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -35,8 +36,7 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
 
     @Bind(R.id.image)
     protected ImageView imgview;
-    String username;
-    String avatarURL;
+    String name;
     private boolean isHideToolbarView = false;
     private static final String TAG = "ProfileAcitivity";
     public int avaindex = -1;
@@ -49,10 +49,10 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
         ButterKnife.bind(this);
 //        Bundle bundle = this.getIntent().getExtras();
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
-        avatarURL = intent.getStringExtra("avatar");
-        Log.d(TAG, "onCreate:sss " + username);
-//        avatarURL = bundle.getString("avatar");
+        name = intent.getStringExtra("name");
+        avaindex = intent.getIntExtra("avatar", 0);
+        Log.d(TAG, "onCreate:sss " + name);
+//        avatar = bundle.getString("avatar");
         initList();
 
         setSupportActionBar(toolbar);
@@ -94,10 +94,13 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
 
     private void initUi() {
         appBarLayout.addOnOffsetChangedListener(this);
-        toolbarHeaderView.bindTo(username);
-        Glide.with(this)
-                .load("http://www.lovexn.top/img/80952.jpg")
-                .into(imgview);
+        toolbarHeaderView.bindTo(name);
+        Log.d(TAG, "initUi: " + avaindex);
+        if (avaindex != -1) {
+            Glide.with(this)
+                    .load(urlList.get(avaindex))
+                    .into(imgview);
+        }
 //        toolbarHeaderView.bindTo("Larry Page", "Last seen today at 7.00PM");
 //        floatHeaderView.bindTo("Larry Page", "Last seen today at 7.00PM");
     }
@@ -136,5 +139,21 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
                 .load(urlList.get(avaindex))
                 .thumbnail(0.1f)
                 .into(imgview);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt("avatar", avaindex);
+            intent.putExtras(bundle);
+            setResult(RESULT_OK, intent);
+            Log.d(TAG, "onActivityResult: 11");
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

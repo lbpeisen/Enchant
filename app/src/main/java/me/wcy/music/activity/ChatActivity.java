@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,10 @@ import jp.bassaer.chatmessageview.models.Message;
 import jp.bassaer.chatmessageview.views.ChatView;
 import jp.bassaer.chatmessageview.views.MessageView;
 import me.wcy.music.R;
+import me.wcy.music.http.HttpCallback;
+import me.wcy.music.http.HttpClient;
+import me.wcy.music.model.ChatMessage;
+import me.wcy.music.model.ChatMessageGroup;
 import me.wcy.music.utils.binding.Bind;
 
 /**
@@ -24,7 +29,8 @@ public class ChatActivity extends BaseActivity {
     @Bind(R.id.chat_view)
     ChatView mChatView;
     //User icon
-    private String sendID;
+    private String remoteID;
+    private String localID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +39,7 @@ public class ChatActivity extends BaseActivity {
             return;
         }
         Intent intent=getIntent();
-        sendID = intent.getStringExtra("SENDID");
+        remoteID = intent.getStringExtra("REMOTEID");
         //Create ChatView
         mChatView.setLeftBubbleColor(Color.WHITE);
         mChatView.setSendIcon(R.drawable.ic_action_send);
@@ -43,23 +49,45 @@ public class ChatActivity extends BaseActivity {
         mChatView.setSendTimeTextColor(Color.BLACK);
         mChatView.setDateSeparatorColor(Color.WHITE);
         //
-        Reflash();
+        //Reflash();
+        addTest();
     }
 
     //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+        HttpClient.getChat("", remoteID, new HttpCallback<ChatMessageGroup>() {
+            @Override
+            public void onSuccess(ChatMessageGroup chatMessageGroup) {
+                for(ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
+                    Message mMessageBuilder = new Message.Builder()
+                            .setMessageText(chatMessage.getContent())
+                            .setUserName(chatMessage.getTitle())
+                            .setRightMessage(false)
+                            .setUserIcon(myIcon)
+                            .setDateCell(true)
+                            .build();
+                    mChatView.receive(mMessageBuilder);
+                }
+            }
+            @Override
+            public void onFail(Exception e) {
+                Log.i("getChatError",e.getMessage());
+            }
+        });
+    }
+
+    public void addTest(){
+        final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
         Message mMessage = new Message.Builder()
                 .setMessageText("This is a content")
                 .setUserIcon(myIcon)
-                .setUserName(sendID)
+                .setUserName(remoteID)
                 .setRightMessage(false)
                 .setDateCell(true)
                 .build();
         for (int i = 0; i < 5 ;i++){
             mChatView.receive(mMessage);
         }
-
     }
-
 }

@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ import me.wcy.music.adapter.PlayPagerAdapter;
 import me.wcy.music.constants.Actions;
 import me.wcy.music.enums.PlayModeEnum;
 import me.wcy.music.executor.SearchLrc;
+import me.wcy.music.http.HttpCallback;
+import me.wcy.music.http.HttpClient;
 import me.wcy.music.model.Music;
 import me.wcy.music.utils.CoverLoader;
 import me.wcy.music.utils.FileUtils;
@@ -102,6 +105,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ilIndicator.create(mViewPagerContent.size());
         initPlayMode();
         onChange(getPlayService().getPlayingMusic());
+        onLikeButtonCreate();//Create likebutton`s listener.
     }
 
     @Override
@@ -121,19 +125,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         sbProgress.setOnSeekBarChangeListener(this);
         sbVolume.setOnSeekBarChangeListener(this);
         vpPlay.setOnPageChangeListener(this);
-        //点赞按钮
-        mThumbUpView.setUnLikeType(ThumbUpView.LikeType.unlike);
-        mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
-            @Override
-            public void like(boolean like) {
-                //点赞详细操作
-                if(like) {
-                    ToastUtils.show(R.string.like);
-                }else {
-                    ToastUtils.show(R.string.unlike);
-                }
-            }
-        });
+
     }
 
     /**
@@ -272,6 +264,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    private static final String TAG = "PlayFragment";
+
     private void onPlay(Music music) {
         if (music == null) {
             return;
@@ -292,6 +286,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             ivPlay.setSelected(false);
             mAlbumCoverView.pause();
         }
+        Log.d(TAG, "onPlay: " + music.getId());
     }
 
     private void play() {
@@ -416,5 +411,42 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onDestroy() {
         getContext().unregisterReceiver(mVolumeReceiver);
         super.onDestroy();
+    }
+
+    public  void onLikeButtonCreate(){
+        //点赞按钮
+        mThumbUpView.setUnLikeType(ThumbUpView.LikeType.unlike);
+        mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
+            @Override
+            public void like(final boolean like) {
+                //点赞详细操作
+                String remoteMusicID = String.valueOf(getPlayService().getPlayingMusic().getRemoteMusicID());
+                String ifLike;
+                if(like){
+                        ifLike = "1";
+                    }else {
+                        ifLike = "2";
+                }
+                HttpClient.collectMusic("localid", remoteMusicID,ifLike, new HttpCallback<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if (s.contains("\"STATUS\":1000")) {
+                            if(like){
+                                ToastUtils.show(R.string.like);
+                            }else {
+                                ToastUtils.show(R.string.unlike);
+                            }
+                        }
+                        else {
+                            ToastUtils.show(R.string.network_error);
+                        }
+                    }
+                    @Override
+                    public void onFail(Exception e) {
+                        ToastUtils.show(R.string.network_error);
+                    }
+                });
+            }
+        });
     }
 }

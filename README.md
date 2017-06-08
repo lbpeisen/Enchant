@@ -1,54 +1,5 @@
-# 波尼音乐
+# enchant
 ![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)
-
-## 系列文章
-- [Android开源在线音乐播放器——波尼音乐](http://www.jianshu.com/p/1c0f5c4f64fa)
-- [Android开源音乐播放器之播放器基本功能](http://www.jianshu.com/p/bc2f779a5400)
-- [Android开源音乐播放器之高仿云音乐黑胶唱片](http://www.jianshu.com/p/f1d8eb8bb3e5)
-- [Android开源音乐播放器之自动滚动歌词](http://www.jianshu.com/p/0feb6171b0c5)
-- [Android开源音乐播放器之在线音乐列表自动加载更多](http://www.jianshu.com/p/576564627c96)
-
-## 前言
-毕业设计做的项目，答辩完了，就共享出来。<br>
-
-- **开源不易，希望能给个Star鼓励**
-- 项目地址：https://github.com/wangchenyan/PonyMusic
-- 有问题请提Issues
-
-## 简介
-波尼音乐是一款开源Android在线音乐播放器。
-- 播放本地音乐与在线音乐
-- 在线音乐排行榜，如热歌榜、新歌榜等
-- 高仿云音乐的黑胶唱片专辑封面
-- 歌词显示，自动搜索歌词
-- 夜间模式
-- 定时关闭
-
-## 更新说明
-`v 1.2.1`
-- 新增通知栏播放控制
-
-`v 1.2`
-- 修复在线音乐无法加载的问题
-- 修复弱网时播放网络歌曲导致ANR的问题
-- 修复每日启动图片无法更新的问题
-- 下载在线歌曲可以显示专辑封面了
-- 修复已知bug
-
-`v 1.1`
-- 支持 Android 6.0 运行时权限
-- 修复已知bug
-
-`v 1.0`
-- First Release
-
-## 下载地址
-fir.im：http://fir.im/ponymusic
-
-## TODO
-- 在线音乐可以免下载加入我的音乐列表
-- 在线音乐自动缓存
-- 编辑音乐信息
 
 ## 项目
 ### 公开API
@@ -59,8 +10,7 @@ fir.im：http://fir.im/ponymusic
 - [okhttp-utils](https://github.com/hongyangAndroid/okhttp-utils)
 - [Android-Universal-Image-Loader](https://github.com/nostra13/Android-Universal-Image-Loader)
 
-### 关键代码
-黑胶唱片专辑封面绘制流程
+
 ```java
 @Override
 protected void onDraw(Canvas canvas) {
@@ -133,31 +83,3 @@ protected void onDraw(Canvas canvas) {
     }
 }
 ```
-
-## 截图
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_01.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_02.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_03.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_04.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_05.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyMusic/master/art/screenshot_06.jpg)
-
-## 关于作者
-简书：http://www.jianshu.com/users/3231579893ac<br>
-微博：http://weibo.com/wangchenyan1993
-
-## License
-
-    Copyright 2016 wangchenyan
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.

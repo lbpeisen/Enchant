@@ -2,6 +2,7 @@ package me.wcy.music.activity;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -21,9 +22,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import me.wcy.music.R;
 import me.wcy.music.adapter.FragmentAdapter;
 import me.wcy.music.application.AppCache;
+import me.wcy.music.application.MusicApplication;
 import me.wcy.music.constants.Extras;
 import me.wcy.music.executor.NaviMenuExecutor;
 import me.wcy.music.executor.WeatherExecutor;
@@ -46,6 +50,7 @@ import me.wcy.music.widget.CircleImageView;
 
 public class MusicActivity extends BaseActivity implements View.OnClickListener, OnPlayerEventListener,
         NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+    public static final int REQUEST_CODE_PROFILE = 0x997;
     @Bind(R.id.drawer_layout)
     private DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
@@ -86,9 +91,12 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     private MenuItem loginItem;
     private String username;
     private CircleImageView circleimg;
-    private String avatarURL;
+    private int avatar = -1;
     private static final String TAG = "MusicActivity";
     public static final int REQUEST_CODE_LOGIN = 0x999;
+    private SharedPreferences sp;
+    ArrayList<String> urlList;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,13 +114,57 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
+        initList();
         initProfile();
     }
 
+    private void initList() {
+        urlList = new ArrayList<String>();
+        urlList.add("http://www.lovexn.top/img/80948.jpg");
+        urlList.add("http://www.lovexn.top/img/80949.jpg");
+        urlList.add("http://www.lovexn.top/img/80950.jpg");
+        urlList.add("http://www.lovexn.top/img/80951.jpg");
+        urlList.add("http://www.lovexn.top/img/80952.jpg");
+        urlList.add("http://www.lovexn.top/img/80953.jpg");
+        urlList.add("http://www.lovexn.top/img/80954.jpg");
+        urlList.add("http://www.lovexn.top/img/80955.jpg");
+        urlList.add("http://www.lovexn.top/img/80956.jpg");
+        urlList.add("http://www.lovexn.top/img/80957.jpg");
+        urlList.add("http://www.lovexn.top/img/80958.jpg");
+        urlList.add("http://www.lovexn.top/img/80959.jpg");
+        urlList.add("http://www.lovexn.top/img/80960.jpg");
+        urlList.add("http://www.lovexn.top/img/80961.jpg");
+        urlList.add("http://www.lovexn.top/img/80962.jpg");
+        urlList.add("http://www.lovexn.top/img/80963.jpg");
+        urlList.add("http://www.lovexn.top/img/80964.jpg");
+        urlList.add("http://www.lovexn.top/img/80965.jpg");
+    }
+
     private void initProfile() {
-        Glide.with(this)
-                .load("http://www.lovexn.top/img/80948.jpg")
-                .into(circleimg);
+        if (MusicApplication.getLoginState() == 1) {
+            sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
+            name = sp.getString("name", "defaultname");
+            profile_tv.setText(name);
+            int id = sp.getInt("id", 0);
+            int avatar = sp.getInt("avatar", 0);
+            Log.d(TAG, "initProfile: " + name);
+            Log.d(TAG, "initProfile: " + id);
+            if (avatar != -1) {
+                Glide.with(this)
+                        .load(urlList.get(avatar))
+                        .into(circleimg);
+            } else {
+                Glide.with(this)
+                        .load("http://www.lovexn.top/img/80948.jpg")
+                        .into(circleimg);
+            }
+        } else {
+            Glide.with(this)
+                    .load("http://www.lovexn.top/img/80948.jpg")
+                    .into(circleimg);
+        }
+
+
     }
 
     @Override
@@ -143,6 +195,12 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         // add navigation header
         vNavigationHeader = LayoutInflater.from(this).inflate(R.layout.drawer_header, navigationView, false);
         navigationView.addHeaderView(vNavigationHeader);
+        if (MusicApplication.getLoginState() == 1) {
+            if (loginItem == null) {
+                loginItem = navigationView.getMenu().findItem(R.id.action_login);
+            }
+            loginItem.setTitle("注销");
+        }
         profile_tv = (TextView) vNavigationHeader.findViewById(R.id.profile_tv);
         circleimg = (CircleImageView) vNavigationHeader.findViewById(R.id.circleimg);
         // setup view pager
@@ -158,16 +216,16 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
                 Intent intent = new Intent(MusicActivity.this, ProfileAcitivity.class);
-                intent.putExtra("username", username);
-                if (username == null) {
+                intent.putExtra("name", username);
+                if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
-//                    return;
+                    return;
                 }
-                if (avatarURL == null) {
-                    avatarURL = "http://www.lovexn.top/img/1.png";
+                if (avatar == -1) {
+                    avatar = 0;
                 }
-                intent.putExtra("avatar", avatarURL);
-                startActivity(intent);
+                intent.putExtra("avatar", avatar);
+                startActivityForResult(intent, REQUEST_CODE_PROFILE);
             }
         });
     }
@@ -406,22 +464,26 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: 111");
         if (data == null) {
             return;
         }
         if (requestCode == REQUEST_CODE_LOGIN) {
             Bundle b = data.getExtras(); //data为B中回传的Intent
             String result = b.getString("result");//str即为回传的值
-            String usernames = b.getString("username");
+//            String usernames = b.getString("name");
             Log.d(TAG, "onActivityResult: " + result);
-            if (result.equals("login_ok")) {
+            if (MusicApplication.getLoginState() == 1) {
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);
                 }
                 loginItem.setTitle("注销");
-                profile_tv.setText(usernames);
-                username = usernames;
-            } else if (result.equals("login_fail")) {
+                Log.d(TAG, "onActivityResult: " + name);
+//                profile_tv.setText(name);
+//                name = usernames;
+                initProfile();
+            } else {
+                Log.d(TAG, "onActivityResult: sss" + MusicApplication.getLoginState());
                 if (loginItem == null) {
                     loginItem = navigationView.getMenu().findItem(R.id.action_login);
                 }
@@ -430,6 +492,18 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             }
 
 
+        } else if (requestCode == REQUEST_CODE_PROFILE) {
+            Bundle b = data.getExtras(); //data为B中回传的Intent
+            avatar = b.getInt("avatar", 0);//str即为回传的值
+            Log.d(TAG, "onActivityResult: 111");
+            Log.d(TAG, "onActivityResult: 11" + avatar);
+            changeProfile();
         }
+    }
+
+    private void changeProfile() {
+        Glide.with(this)
+                .load(urlList.get(avatar))
+                .into(circleimg);
     }
 }

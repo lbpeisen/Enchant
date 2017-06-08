@@ -10,8 +10,62 @@ public class User {
     String name;
     String code;
     String token;
-    int avator;
+    int avatar;
+    int id;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User(String name, int avatar, int id) {
+        this.name = name;
+        this.avatar = avatar;
+        this.id = id;
+    }
+
+    public User(String email, String name, String token, int avatar, int id) {
+        this.email = email;
+        this.name = name;
+        this.token = token;
+        this.avatar = avatar;
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAvator() {
+        return avatar;
+    }
+
+    public void setAvator(int avatar) {
+        this.avatar = avatar;
+    }
 
     public User(String token) {
         this.token = token;
@@ -20,6 +74,11 @@ public class User {
     public User(String user_email, String user_password) {
         this.email = user_email;
         this.password = user_password;
+    }
+
+    public User(int avatar, int id) {
+        this.avatar = avatar;
+        this.id = id;
     }
 
     public User(String user_email, String user_password, String user_name, String code) {

@@ -26,6 +26,7 @@ public class Music {
     // 文件大小
     private long fileSize;
 
+    private String RemoteMusicID;
     public enum Type {
         LOCAL,
         ONLINE
@@ -109,6 +110,14 @@ public class Music {
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getRemoteMusicID() {
+        return RemoteMusicID;
+    }
+
+    public void setRemoteMusicID(String remoteMusicID) {
+        RemoteMusicID = remoteMusicID;
     }
 
     /**
