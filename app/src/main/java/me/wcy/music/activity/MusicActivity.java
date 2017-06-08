@@ -78,8 +78,10 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.iv_play_bar_next)
     private ImageView ivPlayBarNext;
     @Bind(R.id.pb_play_bar)
-    public TextView profile_tv;
     private ProgressBar mProgressBar;
+
+
+    public TextView profile_tv;
     private View vNavigationHeader;
     private LocalMusicFragment mLocalMusicFragment;
     private SongListFragment mSongListFragment;
