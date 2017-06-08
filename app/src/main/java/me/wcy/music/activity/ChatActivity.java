@@ -1,6 +1,7 @@
 package me.wcy.music.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -31,6 +32,9 @@ public class ChatActivity extends BaseActivity {
     //User icon
     private String remoteID;
     private String localID;
+    private SharedPreferences sp;
+    private String localid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +52,9 @@ public class ChatActivity extends BaseActivity {
         mChatView.setUsernameTextColor(Color.BLACK);
         mChatView.setSendTimeTextColor(Color.BLACK);
         mChatView.setDateSeparatorColor(Color.WHITE);
-        //
+        //localID
+        sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
+        localid = sp.getString("id", "defaultid");
         //Reflash();
         addTest();
     }
@@ -56,7 +62,7 @@ public class ChatActivity extends BaseActivity {
     //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
-        HttpClient.getChat("", remoteID, new HttpCallback<ChatMessageGroup>() {
+        HttpClient.getChat(localid, remoteID, new HttpCallback<ChatMessageGroup>() {
             @Override
             public void onSuccess(ChatMessageGroup chatMessageGroup) {
                 for(ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
