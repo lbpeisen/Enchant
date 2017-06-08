@@ -17,7 +17,6 @@ import jp.bassaer.chatmessageview.views.MessageView;
 import me.wcy.music.R;
 import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
-import me.wcy.music.model.ChatMessage;
 import me.wcy.music.model.ChatMessageGroup;
 import me.wcy.music.utils.binding.Bind;
 
@@ -33,8 +32,6 @@ public class ChatActivity extends BaseActivity {
     private String remoteID;
     private String localID;
     private SharedPreferences sp;
-    private String localid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +39,7 @@ public class ChatActivity extends BaseActivity {
         if (!checkServiceAlive()) {
             return;
         }
-        Intent intent=getIntent();
-        remoteID = intent.getStringExtra("REMOTEID");
+
         //Create ChatView
         mChatView.setLeftBubbleColor(Color.WHITE);
         mChatView.setSendIcon(R.drawable.ic_action_send);
@@ -54,18 +50,20 @@ public class ChatActivity extends BaseActivity {
         mChatView.setDateSeparatorColor(Color.WHITE);
         //localID
         sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
-        localid = sp.getString("id", "defaultid");
-        //Reflash();
-        addTest();
+        localID = String.valueOf(sp.getInt("id", 0));
+        Intent intent=getIntent();
+        remoteID = intent.getStringExtra("REMOTEID");
+
+        Reflash();
     }
 
     //Get the information
     private void Reflash() {
         final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
-        HttpClient.getChat(localid, remoteID, new HttpCallback<ChatMessageGroup>() {
+        HttpClient.getChat(localID, remoteID, new HttpCallback<ChatMessageGroup>() {
             @Override
             public void onSuccess(ChatMessageGroup chatMessageGroup) {
-                for(ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
+                for(ChatMessageGroup.ChatMessage chatMessage: chatMessageGroup.getChatMessageArrayList()){
                     Message mMessageBuilder = new Message.Builder()
                             .setMessageText(chatMessage.getContent())
                             .setUserName(chatMessage.getTitle())
@@ -83,17 +81,17 @@ public class ChatActivity extends BaseActivity {
         });
     }
 
-    public void addTest(){
-        final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
-        Message mMessage = new Message.Builder()
-                .setMessageText("This is a content")
-                .setUserIcon(myIcon)
-                .setUserName(remoteID)
-                .setRightMessage(false)
-                .setDateCell(true)
-                .build();
-        for (int i = 0; i < 5 ;i++){
-            mChatView.receive(mMessage);
-        }
-    }
+//    public void addTest(){
+//        final Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.face_2);
+//        Message mMessage = new Message.Builder()
+//                .setMessageText("This is a content")
+//                .setUserIcon(myIcon)
+//                .setUserName(remoteID)
+//                .setRightMessage(false)
+//                .setDateCell(true)
+//                .build();
+//        for (int i = 0; i < 5 ;i++){
+//            mChatView.receive(mMessage);
+//        }
+//    }
 }
