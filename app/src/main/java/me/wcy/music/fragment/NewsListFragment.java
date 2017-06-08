@@ -55,6 +55,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         //localId
         sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
         localid = sp.getString("id", "defaultid");
+
         return view;
     }
 
