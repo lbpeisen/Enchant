@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by han78 on 2017/6/6.
+ * 用于接收详细通知记录的类
  */
 
 public class ChatMessageGroup {
@@ -25,11 +26,11 @@ public class ChatMessageGroup {
     }
 
     public static class ChatMessage {
-        @SerializedName("content")
+        @SerializedName("content")/*内容*/
         private String content;
-        @SerializedName("create_time")
+        @SerializedName("create_time")/*消息时间*/
         private String create_time;
-        @SerializedName("title")
+        @SerializedName("title")/*标题*/
         private String title;
 
         public ChatMessage(String content, String create_time, String title) {

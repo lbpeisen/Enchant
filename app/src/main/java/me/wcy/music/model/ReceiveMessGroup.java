@@ -6,37 +6,38 @@ import java.util.ArrayList;
 
 /**
  * Created by han78 on 2017/6/5.
+ * 接受消息列表类
  */
 
 public class ReceiveMessGroup {
     @SerializedName("lm")
-    private ArrayList<ReceiveMess> lm;
+    private ArrayList<ReceiveMess> receiveMessArrayList;
 
-    public ReceiveMessGroup(ArrayList<ReceiveMess> lm) {
-        this.lm = lm;
+    public ReceiveMessGroup(ArrayList<ReceiveMess> receiveMessArrayList) {
+        this.receiveMessArrayList = receiveMessArrayList;
     }
 
-    public ArrayList<ReceiveMess> getLm() {
-        return lm;
+    public ArrayList<ReceiveMess> getReceiveMessArrayList() {
+        return receiveMessArrayList;
     }
 
-    public void setLm(ArrayList<ReceiveMess> lm) {
-        this.lm = lm;
+    public void setReceiveMessArrayList(ArrayList<ReceiveMess> receiveMessArrayList) {
+        this.receiveMessArrayList = receiveMessArrayList;
     }
 
     public static class ReceiveMess {
-        @SerializedName("lastMessage")
+        @SerializedName("lastMessage")/*最后一条消息*/
         private String lastMessage;
-        @SerializedName("lastTIme")
-        private String lastTIme;
-        @SerializedName("remoteID")
+        @SerializedName("lastTime")/*随后一条消息的时间*/
+        private String lastTime;
+        @SerializedName("remoteID")/*发送方的*/
         private String remoteID;
-        @SerializedName("remoteName")
+        @SerializedName("remoteName")/*发送方的姓名*/
         private String remoteName;
 
         public ReceiveMess(String lastMessage, String lastTIme, String remoteID, String remoteName) {
             this.lastMessage = lastMessage;
-            this.lastTIme = lastTIme;
+            this.lastTime = lastTIme;
             this.remoteID = remoteID;
             this.remoteName = remoteName;
         }
@@ -49,12 +50,12 @@ public class ReceiveMessGroup {
             this.lastMessage = lastMessage;
         }
 
-        public String getLastTIme() {
-            return lastTIme;
+        public String getLastTime() {
+            return lastTime;
         }
 
-        public void setLastTIme(String lastTIme) {
-            this.lastTIme = lastTIme;
+        public void setLastTime(String lastTIme) {
+            this.lastTime = lastTIme;
         }
 
         public String getRemoteID() {

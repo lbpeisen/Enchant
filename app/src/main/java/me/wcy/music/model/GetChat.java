@@ -4,12 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by han78 on 2017/6/1.
+ * 得到通知具体消息的请求类
  */
 
 public class GetChat {
-    @SerializedName("send_user_id")
+    @SerializedName("send_user_id")/*远程ID*/
     private String send_user_id;
-    @SerializedName("to_user_id")
+    @SerializedName("to_user_id")/*本地ID*/
     private String to_user_id;
 
     public GetChat(String send_user_id, String to_user_id) {

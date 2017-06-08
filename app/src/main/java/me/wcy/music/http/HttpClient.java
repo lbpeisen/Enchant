@@ -34,6 +34,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by hzwangchenyan on 2017/2/8.
+ * 网络操作类
  */
 public class HttpClient {
     private static final String SPLASH_URL = "http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1";

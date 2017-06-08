@@ -77,7 +77,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         HttpClient.getReceiveMess(localID, new HttpCallback<ReceiveMessGroup>() {
             @Override
             public void onSuccess(ReceiveMessGroup receiveMessGroup) {
-                receiveMesses = receiveMessGroup.getLm();
+                receiveMesses = receiveMessGroup.getReceiveMessArrayList();
                 newsadapter.notifyChange(receiveMesses);
                 swipe_refresh_layout.setRefreshing(false);
             }
