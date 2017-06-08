@@ -429,7 +429,9 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject2 = new JSONObject(result);
                             JSONArray jsonArray = jsonObject2.getJSONArray("results");
                             JSONObject jsonObjectSon = (JSONObject) jsonArray.opt(0);
+//                            JSONObject jsonObjectSontoken = (JSONObject) jsonArray.opt(0);
                             confidence = jsonObjectSon.getString("confidence");
+                            String facetokenForSearch = jsonObjectSon.getString("face_token");
                             Log.d(TAG, "run: 333" + confidence);
 //                            Toast.makeText(LoginActivity.this, "aaa", Toast.LENGTH_LONG).show();
 
@@ -437,15 +439,16 @@ public class LoginActivity extends AppCompatActivity {
                                 Looper.prepare();
                                 Toast.makeText(LoginActivity.this, "刷脸失败", Toast.LENGTH_LONG).show();
                                 Looper.loop();
+                                Log.d(TAG, "run: 333 6666");
                                 return;
                             }
 
-                            finish();
+
                             OkHttpUtils
                                     .postString()
                                     .url(MusicApplication.ip + "enchant/login.action")
 //                                    .content(new Gson().toJson(new User("c07d3f2f8d6dcaa9d5ba9b8beaa4291")))
-                                    .content(new Gson().toJson(new User(faceToken1)))
+                                    .content(new Gson().toJson(new User(facetokenForSearch)))
                                     .mediaType(MediaType.parse("application/json; charset=utf-8"))
                                     .build()
                                     .execute(new StringCallback() {
@@ -457,15 +460,26 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(String response, int id) {
                                             Log.d(TAG, "onResponse: " + response);
-
-
+                                            Intent intent = new Intent();
                                             if (response.toString().contains("\"STATUS\":1000")) {
-
+                                                Log.d(TAG, "run: 333 66669");
                                                 Log.d(TAG, "onResponse:1111 ");
-                                                Toast.makeText(LoginActivity.this, "刷脸成功!", Toast.LENGTH_SHORT).show();
+                                                Gson gson = new Gson();
+                                                User user = gson.fromJson(response, User.class);
+                                                sp.edit().putString("email", user.getEmail()).commit();
+                                                sp.edit().putString("name", user.getName()).commit();
+                                                sp.edit().putInt("id", user.getId()).commit();
+                                                sp.edit().putInt("avatar", user.getAvator()).commit();
+                                                MusicApplication.login();
+                                                Log.d(TAG, "onResponse:1111 ");
+                                                Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("result", "login_ok");
+                                                bundle.putString("username", stUserName);
+                                                intent.putExtras(bundle);
+                                                setResult(RESULT_OK, intent);
                                                 finish();
                                             } else if (response.toString().contains("\"STATUS\":1008")) {
-
                                                 Log.d(TAG, "onResponse:222 ");
                                                 Toast.makeText(LoginActivity.this, "刷脸失败！", Toast.LENGTH_SHORT).show();
                                             }

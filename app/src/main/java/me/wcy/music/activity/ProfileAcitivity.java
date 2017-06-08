@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -138,5 +139,21 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
                 .load(urlList.get(avaindex))
                 .thumbnail(0.1f)
                 .into(imgview);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putInt("avatar", avaindex);
+            intent.putExtras(bundle);
+            setResult(RESULT_OK, intent);
+            Log.d(TAG, "onActivityResult: 11");
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

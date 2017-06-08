@@ -114,30 +114,34 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
+        initList();
         initProfile();
+    }
+
+    private void initList() {
+        urlList = new ArrayList<String>();
+        urlList.add("http://www.lovexn.top/img/80948.jpg");
+        urlList.add("http://www.lovexn.top/img/80949.jpg");
+        urlList.add("http://www.lovexn.top/img/80950.jpg");
+        urlList.add("http://www.lovexn.top/img/80951.jpg");
+        urlList.add("http://www.lovexn.top/img/80952.jpg");
+        urlList.add("http://www.lovexn.top/img/80953.jpg");
+        urlList.add("http://www.lovexn.top/img/80954.jpg");
+        urlList.add("http://www.lovexn.top/img/80955.jpg");
+        urlList.add("http://www.lovexn.top/img/80956.jpg");
+        urlList.add("http://www.lovexn.top/img/80957.jpg");
+        urlList.add("http://www.lovexn.top/img/80958.jpg");
+        urlList.add("http://www.lovexn.top/img/80959.jpg");
+        urlList.add("http://www.lovexn.top/img/80960.jpg");
+        urlList.add("http://www.lovexn.top/img/80961.jpg");
+        urlList.add("http://www.lovexn.top/img/80962.jpg");
+        urlList.add("http://www.lovexn.top/img/80963.jpg");
+        urlList.add("http://www.lovexn.top/img/80964.jpg");
+        urlList.add("http://www.lovexn.top/img/80965.jpg");
     }
 
     private void initProfile() {
         if (MusicApplication.getLoginState() == 1) {
-            urlList = new ArrayList<String>();
-            urlList.add("http://www.lovexn.top/img/80948.jpg");
-            urlList.add("http://www.lovexn.top/img/80949.jpg");
-            urlList.add("http://www.lovexn.top/img/80950.jpg");
-            urlList.add("http://www.lovexn.top/img/80951.jpg");
-            urlList.add("http://www.lovexn.top/img/80952.jpg");
-            urlList.add("http://www.lovexn.top/img/80953.jpg");
-            urlList.add("http://www.lovexn.top/img/80954.jpg");
-            urlList.add("http://www.lovexn.top/img/80955.jpg");
-            urlList.add("http://www.lovexn.top/img/80956.jpg");
-            urlList.add("http://www.lovexn.top/img/80957.jpg");
-            urlList.add("http://www.lovexn.top/img/80958.jpg");
-            urlList.add("http://www.lovexn.top/img/80959.jpg");
-            urlList.add("http://www.lovexn.top/img/80960.jpg");
-            urlList.add("http://www.lovexn.top/img/80961.jpg");
-            urlList.add("http://www.lovexn.top/img/80962.jpg");
-            urlList.add("http://www.lovexn.top/img/80963.jpg");
-            urlList.add("http://www.lovexn.top/img/80964.jpg");
-            urlList.add("http://www.lovexn.top/img/80965.jpg");
             sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
             name = sp.getString("name", "defaultname");
             profile_tv.setText(name);
@@ -460,6 +464,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: 111");
         if (data == null) {
             return;
         }
@@ -489,8 +494,16 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
 
         } else if (requestCode == REQUEST_CODE_PROFILE) {
             Bundle b = data.getExtras(); //data为B中回传的Intent
-            String result = b.getString("result");//str即为回传的值
-
+            avatar = b.getInt("avatar", 0);//str即为回传的值
+            Log.d(TAG, "onActivityResult: 111");
+            Log.d(TAG, "onActivityResult: 11" + avatar);
+            changeProfile();
         }
+    }
+
+    private void changeProfile() {
+        Glide.with(this)
+                .load(urlList.get(avatar))
+                .into(circleimg);
     }
 }
