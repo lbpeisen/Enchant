@@ -28,7 +28,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * 通知
  */
-public class NewsListFragment extends android.app.Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class NewsListFragment extends android.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_refresh_layout_news)
     SwipeRefreshLayout swipe_refresh_layout;
@@ -38,23 +38,23 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
     NewListAdapter newsadapter;
     ArrayList<ReceiveMess> receiveMesses;
     private SharedPreferences sp;
-    private String localid;
+    private int localid;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_news,container,false);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, view);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         swipe_refresh_layout.setOnRefreshListener(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
-        newsadapter=new NewListAdapter(getActivity());
+        newsadapter = new NewListAdapter(getActivity());
         mRecyclerView.setAdapter(newsadapter);//设置Adapter
         //localId
         sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
-        localid = sp.getString("id", "defaultid");
+        localid = sp.getInt("id", 0);
 
         return view;
     }
@@ -76,7 +76,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
 
     //Get ReceiveMessage
-    public void GetNewInfo(String localID){
+    public void GetNewInfo(String localID) {
         HttpClient.getReceiveMess(localID, new HttpCallback<ReceiveMessGroup>() {
             @Override
             public void onSuccess(ReceiveMessGroup receiveMessGroup) {
@@ -86,16 +86,16 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
             @Override
             public void onFail(Exception e) {
-                Log.i("getNewsListError",e.getMessage());
+                Log.i("getNewsListError", e.getMessage());
             }
         });
     }
 
 
-    public void addTest(){
+    public void addTest() {
         ArrayList<ReceiveMess> info = new ArrayList<>();
-        for(int i = 1; i <10 ;i++){
-            info.add(new ReceiveMess("1","1","Title","2016"));
+        for (int i = 1; i < 10; i++) {
+            info.add(new ReceiveMess("1", "1", "Title", "2016"));
         }
         this.receiveMesses = info;
         swipe_refresh_layout.setRefreshing(false);

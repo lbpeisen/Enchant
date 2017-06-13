@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -95,13 +93,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private List<View> mViewPagerContent;
     private int mLastProgress;
     private SharedPreferences sp;
-    private String localid;
+    private int localid;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
-        localid = sp.getString("id", "defaultid");
+        localid = sp.getInt("id", 0);
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
 
@@ -421,7 +419,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         super.onDestroy();
     }
 
-    public  void onLikeButtonCreate(){
+    public void onLikeButtonCreate() {
         //点赞按钮
         mThumbUpView.setUnLikeType(ThumbUpView.LikeType.unlike);
         mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
@@ -430,25 +428,25 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 //点赞详细操作
                 String remoteMusicID = String.valueOf(getPlayService().getPlayingMusic().getRemoteMusicID());
                 String ifLike;
-                if(like){
-                        ifLike = "1";
-                    }else {
-                        ifLike = "2";
+                if (like) {
+                    ifLike = "1";
+                } else {
+                    ifLike = "2";
                 }
-                HttpClient.collectMusic(localid, remoteMusicID,ifLike, new HttpCallback<String>() {
+                HttpClient.collectMusic(String.valueOf(localid), remoteMusicID, ifLike, new HttpCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if (s.contains("\"STATUS\":1000")) {
-                            if(like){
+                            if (like) {
                                 ToastUtils.show(R.string.like);
-                            }else {
+                            } else {
                                 ToastUtils.show(R.string.unlike);
                             }
-                        }
-                        else {
+                        } else {
                             ToastUtils.show(R.string.network_error);
                         }
                     }
+
                     @Override
                     public void onFail(Exception e) {
                         ToastUtils.show(R.string.network_error);

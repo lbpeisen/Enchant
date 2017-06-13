@@ -220,7 +220,6 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent();
                         Log.d(TAG, "onResponse: " + response);
                         if (response.toString().contains("\"STATUS\":1000")) {
-
                             Gson gson = new Gson();
                             User user = gson.fromJson(response, User.class);
                             sp.edit().putString("email", stUserName).commit();
