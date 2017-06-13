@@ -7,6 +7,8 @@ import me.wcy.music.fragment.NewsListFragment;
 
 /**
  * Created by rain on 2017/5/31.
+ *
+ * 消息列表界面
  */
 
 public class MessageActivity extends BaseActivity {

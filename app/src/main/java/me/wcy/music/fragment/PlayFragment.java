@@ -101,7 +101,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
-        localid = sp.getString("id", "defaultid");
+        localid = String.valueOf(sp.getInt("id", 0));
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
 

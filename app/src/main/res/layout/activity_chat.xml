@@ -3,8 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/include_app_bar" />
-    <jp.bassaer.chatmessageview.views.ChatView
-        android:id="@+id/chat_view"
+    <LinearLayout
+        android:id="@+id/ll_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
 </LinearLayout>
