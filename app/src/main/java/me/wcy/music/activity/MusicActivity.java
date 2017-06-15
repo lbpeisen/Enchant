@@ -34,7 +34,6 @@ import me.wcy.music.fragment.LocalMusicFragment;
 import me.wcy.music.fragment.PlayFragment;
 import me.wcy.music.fragment.SongListFragment;
 import me.wcy.music.model.Music;
-import me.wcy.music.receiver.RemoteControlReceiver;
 import me.wcy.music.service.OnPlayerEventListener;
 import me.wcy.music.service.PlayService;
 import me.wcy.music.utils.CoverLoader;
@@ -108,7 +107,6 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         getPlayService().setOnPlayEventListener(this);
 
         setupView();
-        registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
         initList();
@@ -228,12 +226,6 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    /*注册*/
-    private void registerReceiver() {
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        mRemoteReceiver = new ComponentName(getPackageName(), RemoteControlReceiver.class.getName());
-        mAudioManager.registerMediaButtonEventReceiver(mRemoteReceiver);
-    }
     /*接收传递*/
     private void parseIntent() {
         Intent intent = getIntent();

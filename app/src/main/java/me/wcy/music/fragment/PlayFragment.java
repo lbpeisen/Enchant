@@ -86,9 +86,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private ThumbUpView mThumbUpView;
 
     private AlbumCoverView mAlbumCoverView;
-    private LrcView mLrcViewSingle;
     private LrcView mLrcViewFull;
-    private SeekBar sbVolume;
     private AudioManager mAudioManager;
     private List<View> mViewPagerContent;
     private int mLastProgress;
@@ -120,7 +118,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter(Actions.VOLUME_CHANGED_ACTION);
-        getContext().registerReceiver(mVolumeReceiver, filter);
     }
 
     @Override
@@ -131,7 +128,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ivPrev.setOnClickListener(this);
         ivNext.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
-        sbVolume.setOnSeekBarChangeListener(this);
         vpPlay.setOnPageChangeListener(this);
 
     }
@@ -152,9 +148,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         View coverView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_cover, null);
         View lrcView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_lrc, null);
         mAlbumCoverView = (AlbumCoverView) coverView.findViewById(R.id.album_cover_view);
-        mLrcViewSingle = (LrcView) coverView.findViewById(R.id.lrc_view_single);
         mLrcViewFull = (LrcView) lrcView.findViewById(R.id.lrc_view_full);
-        sbVolume = (SeekBar) lrcView.findViewById(R.id.sb_volume);
         mAlbumCoverView.initNeedle(getPlayService().isPlaying());
         initVolume();
 
@@ -169,8 +163,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     * */
     private void initVolume() {
         mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-        sbVolume.setMax(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
     }
 
     /*
@@ -187,10 +179,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onPublish(int progress) {
         if (isAdded()) {
             sbProgress.setProgress(progress);
-            if (mLrcViewSingle.hasLrc()) {
-                mLrcViewSingle.updateTime(progress);
-                mLrcViewFull.updateTime(progress);
-            }
             //更新当前播放时间
             if (progress - mLastProgress >= 1000) {
                 tvCurrentTime.setText(formatTime(progress));
@@ -268,23 +256,19 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
     }
-
+    /*
+    * 拖动停止后更改相关信息
+    * */
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (seekBar == sbProgress) {
-            if (getPlayService().isPlaying() || getPlayService().isPausing()) {
-                int progress = seekBar.getProgress();
-                getPlayService().seekTo(progress);
-                mLrcViewSingle.onDrag(progress);
-                mLrcViewFull.onDrag(progress);
-                tvCurrentTime.setText(formatTime(progress));
-                mLastProgress = progress;
-            } else {
-                seekBar.setProgress(0);
-            }
-        } else if (seekBar == sbVolume) {
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, seekBar.getProgress(),
-                    AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+        if (getPlayService().isPlaying() || getPlayService().isPausing()) {
+            int progress = seekBar.getProgress();
+            getPlayService().seekTo(progress);
+            mLrcViewFull.onDrag(progress);//更改歌词的对应时间
+            tvCurrentTime.setText(formatTime(progress));
+            mLastProgress = progress;
+        } else {
+            seekBar.setProgress(0);
         }
     }
 
@@ -358,7 +342,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     private void setCoverAndBg(Music music) {
         mAlbumCoverView.setCoverBitmap(CoverLoader.getInstance().loadRound(music));
-        ivPlayingBg.setImageBitmap(CoverLoader.getInstance().loadBlur(music));
     }
 
     private void setLrc(final Music music) {
@@ -372,7 +355,6 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                     public void onPrepare() {
                         // 设置tag防止歌词下载完成后已切换歌曲
                         vpPlay.setTag(music);
-
                         loadLrc("");
                         setLrcLabel("正在搜索歌词");
                     }
@@ -411,12 +393,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
 
     private void loadLrc(String path) {
         File file = new File(path);
-        mLrcViewSingle.loadLrc(file);
         mLrcViewFull.loadLrc(file);
     }
 
     private void setLrcLabel(String label) {
-        mLrcViewSingle.setLabel(label);
         mLrcViewFull.setLabel(label);
     }
 
@@ -424,19 +404,14 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         return SystemUtils.formatTime("mm:ss", time);
     }
 
-    private BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-        }
-    };
 
     @Override
     public void onDestroy() {
-        getContext().unregisterReceiver(mVolumeReceiver);
         super.onDestroy();
     }
-
+    /*
+    * 点赞收藏功能
+    * */
     public void onLikeButtonCreate() {
         //点赞按钮
         mThumbUpView.setUnLikeType(ThumbUpView.LikeType.unlike);
