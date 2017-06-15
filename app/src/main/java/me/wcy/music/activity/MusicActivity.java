@@ -30,7 +30,6 @@ import me.wcy.music.application.AppCache;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.constants.Extras;
 import me.wcy.music.executor.NaviMenuExecutor;
-import me.wcy.music.executor.WeatherExecutor;
 import me.wcy.music.fragment.LocalMusicFragment;
 import me.wcy.music.fragment.PlayFragment;
 import me.wcy.music.fragment.SongListFragment;
@@ -42,9 +41,6 @@ import me.wcy.music.utils.CoverLoader;
 import me.wcy.music.utils.SystemUtils;
 import me.wcy.music.utils.ToastUtils;
 import me.wcy.music.utils.binding.Bind;
-import me.wcy.music.utils.permission.PermissionReq;
-import me.wcy.music.utils.permission.PermissionResult;
-import me.wcy.music.utils.permission.Permissions;
 import me.wcy.music.widget.CircleImageView;
 
 
@@ -112,7 +108,6 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         getPlayService().setOnPlayEventListener(this);
 
         setupView();
-        updateWeather();
         registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
@@ -141,7 +136,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         urlList.add("http://www.lovexn.top/img/80964.jpg");
         urlList.add("http://www.lovexn.top/img/80965.jpg");
     }
-
+    /*初始化侧边栏*/
     private void initProfile() {
         if (MusicApplication.getLoginState() == 1) {
             sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
@@ -213,6 +208,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         adapter.addFragment(mSongListFragment);
         mViewPager.setAdapter(adapter);
         tvLocalMusic.setSelected(true);
+        /*头像按钮*/
         vNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,29 +228,13 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    private void updateWeather() {
-        PermissionReq.with(this)
-                .permissions(Permissions.LOCATION)
-                .result(new PermissionResult() {
-                    @Override
-                    public void onGranted() {
-                        new WeatherExecutor(getPlayService(), vNavigationHeader).execute();
-                    }
-
-                    @Override
-                    public void onDenied() {
-                        ToastUtils.show(getString(R.string.no_permission, Permissions.LOCATION_DESC, "更新天气"));
-                    }
-                })
-                .request();
-    }
-
+    /*注册*/
     private void registerReceiver() {
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mRemoteReceiver = new ComponentName(getPackageName(), RemoteControlReceiver.class.getName());
         mAudioManager.registerMediaButtonEventReceiver(mRemoteReceiver);
     }
-
+    /*接收传递*/
     private void parseIntent() {
         Intent intent = getIntent();
         if (intent.hasExtra(Extras.EXTRA_NOTIFICATION)) {

@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import me.wcy.music.R;
 
 /**
- * Created by oreo on 2016/10/21.
+ * Created by oreo on 2017/06/04.
  */
 public class LostPasswdActivity extends AppCompatActivity {
     @Bind(R.id.fab_lost)

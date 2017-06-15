@@ -102,7 +102,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         localid = sp.getInt("id", 0);
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
-
+    /*
+    * 初始化
+    * */
     @Override
     protected void init() {
 
@@ -143,7 +145,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             llContent.setPadding(0, top, 0, 0);
         }
     }
-
+    /*
+    * 初始化界面
+    * */
     private void initViewPager() {
         View coverView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_cover, null);
         View lrcView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_play_page_lrc, null);
@@ -160,12 +164,18 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         vpPlay.setAdapter(new PlayPagerAdapter(mViewPagerContent));
     }
 
+    /*
+    * 初始化音量
+    * */
     private void initVolume() {
         mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         sbVolume.setMax(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         sbVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
     }
 
+    /*
+    * 初始化播放方式
+    * */
     private void initPlayMode() {
         int mode = Preferences.getPlayMode();
         ivMode.setImageLevel(mode);
@@ -189,12 +199,17 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    /*
+    * 切换歌曲
+    * */
     public void onChange(Music music) {
         if (isAdded()) {
             onPlay(music);
         }
     }
-
+    /*
+    * 歌曲暂停
+    * */
     public void onPlayerPause() {
         if (isAdded()) {
             ivPlay.setSelected(false);
@@ -234,6 +249,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
 
+    /*
+    * 界面选择
+    * */
     @Override
     public void onPageSelected(int position) {
         ilIndicator.setCurrent(position);
