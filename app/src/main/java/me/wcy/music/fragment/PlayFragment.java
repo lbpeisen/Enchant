@@ -50,7 +50,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 正在播放界面
- * Created by wcy on 2015/11/27.
  */
 public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ViewPager.OnPageChangeListener, SeekBar.OnSeekBarChangeListener {

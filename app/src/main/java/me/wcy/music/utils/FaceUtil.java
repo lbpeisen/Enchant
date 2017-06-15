@@ -12,9 +12,6 @@ import java.util.List;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
-/**
- * Created by oreo on 2017/5/27.
- */
 
 public class FaceUtil {
     /**

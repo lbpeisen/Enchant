@@ -15,9 +15,7 @@ import me.wcy.music.utils.FileUtils;
 import me.wcy.music.utils.NetworkUtils;
 import me.wcy.music.utils.Preferences;
 
-/**
- * Created by hzwangchenyan on 2017/1/20.
- */
+
 public abstract class DownloadMusic implements IExecutor<Void> {
     private Activity mActivity;
 

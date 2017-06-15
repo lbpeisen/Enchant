@@ -18,7 +18,6 @@ import me.wcy.music.model.Music;
 
 /**
  * 文件工具类
- * Created by wcy on 2016/1/3.
  */
 public class FileUtils {
     private static final String MP3 = ".mp3";

@@ -12,7 +12,6 @@ import me.wcy.music.model.Music;
 
 /**
  * 歌曲工具类
- * Created by wcy on 2015/11/27.
  */
 public class MusicUtils {
 

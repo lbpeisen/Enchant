@@ -20,7 +20,6 @@ import me.wcy.music.utils.binding.ViewBinder;
 
 /**
  * 在线音乐列表适配器
- * Created by wcy on 2015/12/22.
  */
 public class OnlineMusicAdapter extends BaseAdapter {
     private List<OnlineMusic> mData;

@@ -2,9 +2,7 @@ package me.wcy.music.api;
 
 import java.lang.reflect.Field;
 
-/**
- * Created by hzwangchenyan on 2016/11/12.
- */
+
 public class KeyStore {
     public static final String BUGLY_APP_ID = "BUGLY_APP_ID";
 

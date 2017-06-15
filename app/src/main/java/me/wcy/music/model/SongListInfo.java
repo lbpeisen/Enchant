@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 歌单信息
- * Created by wcy on 2015/12/20.
  */
 public class SongListInfo implements Serializable {
     private String title;

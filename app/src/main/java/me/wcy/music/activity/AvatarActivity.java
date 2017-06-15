@@ -279,7 +279,7 @@ public class AvatarActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.bt_ava_sure:
                 if (id != -1) {
                     postString()
-                            .url(MusicApplication.ip + "enchant/login.action")
+                            .url(MusicApplication.ip + "enchant/editAvatar.action")
                             .content(new Gson().toJson(new User(id, index)))
                             .mediaType(MediaType.parse("application/json; charset=utf-8"))
                             .build()

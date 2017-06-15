@@ -5,7 +5,6 @@ import android.view.WindowManager;
 
 /**
  * 工具类
- * Created by hzwangchenyan on 2016/1/6.
  */
 public class ScreenUtils {
     private static Context sContext;

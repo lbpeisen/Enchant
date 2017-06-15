@@ -2,9 +2,6 @@ package me.wcy.music.activity.ui;
 
 import android.graphics.PointF;
 
-/**
- * Created by Nguyen on 5/20/2016.
- */
 
 public class FaceResult extends Object {
 

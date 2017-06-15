@@ -221,7 +221,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("name", username);
                 if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
-                    return;
+//                    return;
                 }
                 if (avatar == -1) {
                     avatar = 0;

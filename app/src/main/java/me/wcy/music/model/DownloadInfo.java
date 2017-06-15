@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * JavaBean
- * Created by wcy on 2015/12/27.
  */
 public class DownloadInfo {
     @SerializedName("bitrate")

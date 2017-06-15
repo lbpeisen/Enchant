@@ -46,9 +46,6 @@ import me.wcy.music.utils.FaceUtil;
 import me.wcy.music.utils.ImageUtils;
 
 
-/**
- * Created by Nguyen on 5/20/2016.
- */
 
 /**
  * FACE DETECT EVERY FRAME WIL CONVERT TO GRAY BITMAP SO THIS HAS HIGHER PERFORMANCE THAN RGB BITMAP

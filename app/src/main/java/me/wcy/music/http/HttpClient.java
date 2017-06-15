@@ -10,7 +10,6 @@ import com.zhy.http.okhttp.callback.FileCallBack;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.ArtistInfo;
@@ -32,7 +31,6 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
- * Created by hzwangchenyan on 2017/2/8.
  * 网络操作类
  */
 public class HttpClient {

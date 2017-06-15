@@ -12,7 +12,6 @@ import me.wcy.music.R;
 
 /**
  * 自动加载更多ListView
- * Created by hzwangchenyan on 2016/1/7.
  */
 public class AutoLoadListView extends ListView implements AbsListView.OnScrollListener {
     private static final String TAG = AutoLoadListView.class.getSimpleName();

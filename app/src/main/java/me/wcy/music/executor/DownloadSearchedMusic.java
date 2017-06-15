@@ -14,7 +14,6 @@ import me.wcy.music.utils.FileUtils;
 
 /**
  * 下载搜索的音乐
- * Created by hzwangchenyan on 2016/1/13.
  */
 public abstract class DownloadSearchedMusic extends DownloadMusic {
     private SearchMusic.Song mSong;

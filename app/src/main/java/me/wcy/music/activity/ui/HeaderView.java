@@ -12,10 +12,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wcy.music.R;
 
-/**
- * Created by anton on 11/12/15.
- */
-
 public class HeaderView extends LinearLayout {
 
     @Bind(R.id.name)

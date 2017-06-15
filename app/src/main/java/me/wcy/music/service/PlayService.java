@@ -28,7 +28,6 @@ import me.wcy.music.utils.Preferences;
 
 /**
  * 音乐播放后台服务
- * Created by wcy on 2015/11/27.
  */
 public class PlayService extends Service implements MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     private static final String TAG = "Service";
