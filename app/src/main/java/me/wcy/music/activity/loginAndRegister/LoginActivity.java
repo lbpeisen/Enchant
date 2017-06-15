@@ -226,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
                             sp.edit().putString("name", user.getName()).commit();
                             sp.edit().putInt("id", user.getId()).commit();
                             sp.edit().putInt("avatar", user.getAvator()).commit();
+                            Log.d(TAG, "onResponse: initUiinitUi" + user.getAvator());
                             MusicApplication.login();
                             Log.d(TAG, "onResponse:1111 ");
                             Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();

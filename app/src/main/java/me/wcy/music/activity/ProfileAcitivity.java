@@ -1,6 +1,7 @@
 package me.wcy.music.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
     private static final String TAG = "ProfileAcitivity";
     public int avaindex = -1;
     ArrayList<String> urlList;
+
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,10 @@ public class ProfileAcitivity extends AppCompatActivity implements AppBarLayout.
     private void initUi() {
         appBarLayout.addOnOffsetChangedListener(this);
         toolbarHeaderView.bindTo(name);
+
+        sp = getSharedPreferences("proFile", MODE_PRIVATE);
+        avaindex = sp.getInt("avatar", 0);
+
         Log.d(TAG, "initUi: " + avaindex);
         if (avaindex != -1) {
             Glide.with(this)

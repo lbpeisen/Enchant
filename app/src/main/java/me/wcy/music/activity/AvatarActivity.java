@@ -277,6 +277,7 @@ public class AvatarActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (view.getId()) {
             case R.id.bt_ava_sure:
+                Log.d(TAG, "onClick: " + id);
                 if (id != -1) {
                     postString()
                             .url(MusicApplication.ip + "enchant/editAvatar.action")
@@ -292,7 +293,9 @@ public class AvatarActivity extends AppCompatActivity implements View.OnClickLis
                                 @Override
                                 public void onResponse(String response, int id) {
                                     Log.d(TAG, "onResponse: " + response);
-                                    sp.edit().putInt("avatar", index);
+                                    sp.edit().putInt("avatar", index).commit();
+                                    Log.d(TAG, "onOptionsItemSelected: put1" + index);
+                                    Log.d(TAG, "onResponse: initUi" + index);
                                 }
                             });
                 } else {
