@@ -36,6 +36,7 @@ public class Notifier {
 
     public static void init(PlayService playService) {
         Notifier.playService = playService;
+        //得到NotificationManager的对象，用来实现发送Notificatione
         notificationManager = (NotificationManager) playService.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 

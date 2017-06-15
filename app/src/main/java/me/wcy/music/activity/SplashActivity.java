@@ -10,11 +10,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Calendar;
 
 import me.wcy.music.R;
 import me.wcy.music.application.AppCache;
@@ -32,7 +32,7 @@ import me.wcy.music.utils.permission.Permissions;
 
 public class SplashActivity extends BaseActivity {
     private static final String SPLASH_FILE_NAME = "splash";
-
+    private static final String TAG = "SplashActivity";
     @Bind(R.id.iv_splash)
     private ImageView ivSplash;
     @Bind(R.id.tv_copyright)
@@ -44,8 +44,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        tvCopyright.setText(getString(R.string.copyright, year));
+//        int year = Calendar.getInstance().get(Calendar.YEAR);
+//        tvCopyright.setText(getString(R.string.copyright, year));
 
         checkService();
     }
@@ -83,6 +83,7 @@ public class SplashActivity extends BaseActivity {
     private class PlayServiceConnection implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            //系统调用这个来传送在service的onBind()中返回的IBinder．
             final PlayService playService = ((PlayService.PlayBinder) service).getService();
             AppCache.setPlayService(playService);
             PermissionReq.with(SplashActivity.this)
@@ -102,6 +103,8 @@ public class SplashActivity extends BaseActivity {
                     })
                     .request();
         }
+
+        //Android系统在同service的连接意外丢失时调用这个．比如当service崩溃了或被强杀了．当客户端解除绑定时，这个方法不会被调用．
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -143,6 +146,7 @@ public class SplashActivity extends BaseActivity {
 
                 final String url = response.getUrl();
                 String lastImgUrl = Preferences.getSplashUrl();
+                Log.d(TAG, "onSuccess: " + lastImgUrl);
                 if (TextUtils.equals(lastImgUrl, url)) {
                     return;
                 }

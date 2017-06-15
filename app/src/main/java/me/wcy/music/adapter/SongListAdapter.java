@@ -1,6 +1,7 @@
 package me.wcy.music.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import me.wcy.music.model.SongListInfo;
 import me.wcy.music.utils.ImageUtils;
 import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.binding.ViewBinder;
+
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 歌单列表适配器
@@ -117,6 +120,7 @@ public class SongListAdapter extends BaseAdapter {
             HttpClient.getSongListInfo(songListInfo.getType(), 3, 0, new HttpCallback<OnlineMusicList>() {
                 @Override
                 public void onSuccess(OnlineMusicList response) {
+                    Log.d(TAG, "onSuccess: 11" + response);
                     if (response == null || response.getSong_list() == null) {
                         return;
                     }
