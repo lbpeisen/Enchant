@@ -79,4 +79,5 @@ dependencies {
     compile 'com.github.andyxialm:ColorDialog:1.0.0'
     compile 'com.labo.kaji:swipeawaydialog:0.1.0'
     compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.github.andyxialm:ColorDialog:1.0.0'
 }

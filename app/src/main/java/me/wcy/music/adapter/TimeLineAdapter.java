@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.wcy.music.R;
@@ -16,17 +17,17 @@ import me.wcy.music.utils.TransTime;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHolder> {
     Context mContext;
-    List<CommentGroup.Comment> mList;
+    ArrayList<CommentGroup.Comment> mList;
 
-    public void setList(List<CommentGroup.Comment> list) {
+    public void setList(ArrayList<CommentGroup.Comment> list) {
         mList = list;
     }
 
-    public TimeLineAdapter(Context context) {
-        mContext = context;
+    public TimeLineAdapter(Context mContext) {
+        this.mContext = mContext;
     }
 
-    public TimeLineAdapter(Context context, List<CommentGroup.Comment> list) {
+    public TimeLineAdapter(Context context, ArrayList<CommentGroup.Comment> list) {
         mContext = context;
         mList=list;
     }
@@ -39,10 +40,9 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.title.setText(mList.get(position).getTitle());
-        holder.content.setText(mList.get(position).getContent());
-        holder.time.setText(TransTime.trans(String.valueOf(mList.get(position).getTime())));
-
+        holder.title.setText(mList.get(position).getUser_name());
+        holder.content.setText(mList.get(position).getComment());
+        holder.time.setText(TransTime.trans(String.valueOf(mList.get(position).getCreate_time())));
     }
 
     @Override

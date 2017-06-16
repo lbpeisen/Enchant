@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.labo.kaji.swipeawaydialog.SwipeAwayDialogFragment;
 
+import cn.refactor.lib.colordialog.ColorDialog;
 import me.wcy.music.R;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.http.HttpCallback;
@@ -32,12 +33,31 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("回复");
+//        ColorDialog colorDialog = new ColorDialog(getActivity());
+//        editText = new EditText(getActivity());
+//        editText.setFocusable(true);
+//        editText.setFocusableInTouchMode(true);
+//        editText.requestFocus();
+//        colorDialog.setContentView(editText);
+//        colorDialog.setPositiveListener("发送", new ColorDialog.OnPositiveListener() {
+//            @Override
+//            public void onClick(ColorDialog colorDialog) {
+//
+//            }
+//        });
+//        colorDialog.setNegativeListener("取消", new ColorDialog.OnNegativeListener() {
+//            @Override
+//            public void onClick(ColorDialog colorDialog) {
+//
+//            }
+//        });
+//        return  colorDialog;
         editText = new EditText(getActivity());
         editText.setFocusable(true);
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("回复");
         builder.setView(editText);
         builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
             /*
@@ -53,7 +73,11 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
                 HttpClient.sendComent(localid, musicID, comment, new HttpCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        ToastUtils.show("发送成功");
+                        if (s.contains("\"STATUS\":1000")){
+                            ToastUtils.show("发送成功");
+                        }else {
+                            ToastUtils.show("发送失败");
+                        }
                     }
 
                     @Override

@@ -32,6 +32,7 @@ import me.wcy.music.R;
 import me.wcy.music.activity.ChatActivity;
 import me.wcy.music.activity.TimeLineActivity;
 import me.wcy.music.adapter.PlayPagerAdapter;
+import me.wcy.music.application.MusicApplication;
 import me.wcy.music.constants.Actions;
 import me.wcy.music.enums.PlayModeEnum;
 import me.wcy.music.executor.SearchLrc;
@@ -441,13 +442,17 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
             @Override
             public void like(final boolean like) {
+                if (MusicApplication.getLoginState() == 0) {
+                    ToastUtils.show("请先登录");
+                    return;
+                }
                 //点赞详细操作
                 String remoteMusicID = String.valueOf(getPlayService().getPlayingMusic().getRemoteMusicID());
                 String ifLike;
                 if (like) {
                     ifLike = "1";
                 } else {
-                    ifLike = "2";
+                    ifLike = "0";
                 }
                 HttpClient.collectMusic(String.valueOf(localid), remoteMusicID, ifLike, new HttpCallback<String>() {
                     @Override

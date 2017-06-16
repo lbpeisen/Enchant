@@ -14,9 +14,11 @@ import java.io.File;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.ArtistInfo;
 import me.wcy.music.model.ChatMessageGroup;
-import me.wcy.music.model.CollectMusic;
+import me.wcy.music.model.Collotion;
+import me.wcy.music.model.CommentGroup;
 import me.wcy.music.model.DownloadInfo;
 import me.wcy.music.model.GetChat;
+import me.wcy.music.model.GetComment;
 import me.wcy.music.model.SendComment;
 import me.wcy.music.model.GetMess;
 import me.wcy.music.model.Lrc;
@@ -294,7 +296,7 @@ public class HttpClient {
         OkHttpUtils
                 .postString()
                 .url(MusicApplication.ip + "enchant/login.action")
-                .content(new Gson().toJson(new CollectMusic(localID, localMusicID, like)))//local user`s id and remote user`s id
+                .content(new Gson().toJson(new Collotion(localID, localMusicID, like)))//local user`s id and remote user`s id
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
                 .execute(new StringCallback() {
@@ -325,6 +327,27 @@ public class HttpClient {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        callback.onSuccess(response);
+                    }
+                });
+    }
+
+    public static void getComent(String musicID, final HttpCallback<CommentGroup> callback) {
+        OkHttpUtils
+                .postString()
+                .url(MusicApplication.ip + "enchant/releaseComment.action")
+                .content(new Gson().toJson(new GetComment(musicID)))//local user`s id and remote user`s id
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new JsonCallback<CommentGroup>(CommentGroup.class) {
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callback.onFail(e);
+                    }
+
+                    @Override
+                    public void onResponse(CommentGroup response, int id) {
                         callback.onSuccess(response);
                     }
                 });
