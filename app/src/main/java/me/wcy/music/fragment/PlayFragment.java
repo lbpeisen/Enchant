@@ -29,6 +29,7 @@ import java.util.List;
 
 import me.wcy.lrcview.LrcView;
 import me.wcy.music.R;
+import me.wcy.music.activity.ChatActivity;
 import me.wcy.music.activity.TimeLineActivity;
 import me.wcy.music.adapter.PlayPagerAdapter;
 import me.wcy.music.constants.Actions;
@@ -95,7 +96,10 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private int mLastProgress;
     private SharedPreferences sp;
     private int localid;
-
+    private long musicDration;
+    private String BitmapPath;
+    private Music.Type type;//播放歌曲的类型
+    private String artName;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -235,7 +239,15 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 prev();
                 break;
             case R.id.tv_comment:
-                startActivity(new Intent(getActivity(), TimeLineActivity.class));
+                if(type== Music.Type.ONLINE) {
+                    Intent userActivity = new Intent(getActivity(), TimeLineActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    userActivity.putExtra("MUSICID", musicDration);
+                    userActivity.putExtra("BITMAP", BitmapPath);
+                    userActivity.putExtra("ART",artName);
+                    startActivity(userActivity);
+                }else {
+                    ToastUtils.show(R.string.comment_err);
+                }
                 break;
         }
     }
@@ -285,8 +297,12 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         if (music == null) {
             return;
         }
+        BitmapPath = FileUtils.getAlbumFilePath(music);
+        musicDration = music.getDuration();//remote
+        type = music.getType();//类型(local还是remote)
         tvTitle.setText(music.getTitle());
         tvArtist.setText(music.getArtist());
+        artName =  music.getArtist();
         sbProgress.setMax((int) music.getDuration());
         sbProgress.setProgress(0);
         mLastProgress = 0;

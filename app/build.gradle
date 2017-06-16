@@ -57,8 +57,6 @@ dependencies {
     compile files('libs/FaceppSDK.jar')
 
     //dependencies
-    
-
 
 
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -77,5 +75,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.5.0'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.andyxialm:ColorDialog:1.0.0'
+    compile 'com.labo.kaji:swipeawaydialog:0.1.0'
+    compile 'com.android.support:support-v4:25.3.1'
 }

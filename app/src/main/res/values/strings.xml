@@ -20,6 +20,7 @@
     <string name="mode_loop">列表循环</string>
     <string name="mode_shuffle">随机播放</string>
     <string name="mode_one">单曲循环</string>
+    <string name="comment_err">本地音乐暂时无法评论</string>>
     <string name="like">喜欢</string>
     <string name="unlike">不喜欢</string>
     <string name="network_error">网络错误</string>
@@ -78,4 +79,7 @@
     <string name="about_project_url">https://github.com/BlackJocker1995/Enchant</string>
     <string name="about_github">https://github.com/BlackJocker1995/Enchant</string>
     <string name="no_permission">没有%1$s权限，无法%2$s！</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
