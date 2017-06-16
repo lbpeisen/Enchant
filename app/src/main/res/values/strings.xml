@@ -47,10 +47,11 @@
     <string name="search_empty">未找到相关结果</string>
     <string name="menu_search">在线搜索</string>
     <string name="menu_login">登陆</string>
-    <string name = "menu_info">消息</string>
+    <string name="menu_info">消息</string>
     <string name="menu_setting">功能设置</string>
     <string name="menu_share">推荐给朋友</string>
     <string name="menu_about">关于Enchant</string>
+    <string name="bt_comment">评论</string>>
     <string name="menu_night">夜间模式</string>
     <string name="menu_timer">定时停止播放</string>
     <string name="menu_exit">退出应用</string>

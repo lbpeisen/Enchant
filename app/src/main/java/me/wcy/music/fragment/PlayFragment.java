@@ -1,6 +1,5 @@
 package me.wcy.music.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -29,6 +29,7 @@ import java.util.List;
 
 import me.wcy.lrcview.LrcView;
 import me.wcy.music.R;
+import me.wcy.music.activity.TimeLineActivity;
 import me.wcy.music.adapter.PlayPagerAdapter;
 import me.wcy.music.constants.Actions;
 import me.wcy.music.enums.PlayModeEnum;
@@ -84,6 +85,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private ImageView ivPrev;
     @Bind(R.id.tpv)
     private ThumbUpView mThumbUpView;
+    @Bind(R.id.tv_comment)
+    ImageButton iv_comment;
 
     private AlbumCoverView mAlbumCoverView;
     private LrcView mLrcViewFull;
@@ -127,6 +130,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         ivPlay.setOnClickListener(this);
         ivPrev.setOnClickListener(this);
         ivNext.setOnClickListener(this);
+        iv_comment.setOnClickListener(this);
         sbProgress.setOnSeekBarChangeListener(this);
         vpPlay.setOnPageChangeListener(this);
 
@@ -229,6 +233,9 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 break;
             case R.id.iv_prev:
                 prev();
+                break;
+            case R.id.tv_comment:
+                startActivity(new Intent(getActivity(), TimeLineActivity.class));
                 break;
         }
     }
