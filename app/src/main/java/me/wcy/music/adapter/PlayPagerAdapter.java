@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-/**
- * 正在播放ViewPager适配器，包含歌词和封面
- */
 public class PlayPagerAdapter extends PagerAdapter {
     private List<View> mViews;
 

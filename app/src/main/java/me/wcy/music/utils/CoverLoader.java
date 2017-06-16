@@ -10,9 +10,6 @@ import me.wcy.music.R;
 import me.wcy.music.application.AppCache;
 import me.wcy.music.model.Music;
 
-/**
- * 专辑封面图片加载器
- */
 public class CoverLoader {
     private static final String KEY_NULL = "null";
     /**
@@ -117,6 +114,27 @@ public class CoverLoader {
         return bitmap;
     }
 
+    public Bitmap loadHand(String path) {
+        Bitmap bitmap;
+        if (TextUtils.isEmpty(path)) {
+            bitmap = mBlurCache.get(KEY_NULL);
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(AppCache.getContext().getResources(), R.drawable.drawer_header);
+                mBlurCache.put(KEY_NULL, bitmap);
+            }
+        } else {
+            bitmap = mBlurCache.get(path);
+            if (bitmap == null) {
+                bitmap = loadBitmap(path, ScreenUtils.getScreenWidth() );
+                if (bitmap == null) {
+                    bitmap = loadBlur(null);
+                }
+                mBlurCache.put(path, bitmap);
+            }
+        }
+        return bitmap;
+    }
+
     public Bitmap loadRound(Music music) {
         Bitmap bitmap;
         String path = FileUtils.getAlbumFilePath(music);
@@ -147,6 +165,24 @@ public class CoverLoader {
      * 获得指定大小的bitmap
      */
     private Bitmap loadBitmap(String path, int length) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        // 仅获取大小
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        int maxLength = Math.max(options.outWidth, options.outHeight);
+        // 压缩尺寸，避免卡顿
+        int inSampleSize = maxLength / length;
+        if (inSampleSize < 1) {
+            inSampleSize = 1;
+        }
+        options.inSampleSize = inSampleSize;
+        // 获取bitmap
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        return BitmapFactory.decodeFile(path, options);
+    }
+
+    public static Bitmap loadBitmaps(String path, int length) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         // 仅获取大小
         options.inJustDecodeBounds = true;

@@ -22,7 +22,6 @@ import me.wcy.music.application.Notifier;
 import me.wcy.music.constants.Actions;
 import me.wcy.music.enums.PlayModeEnum;
 import me.wcy.music.model.Music;
-import me.wcy.music.receiver.NoisyAudioStreamReceiver;
 import me.wcy.music.utils.MusicUtils;
 import me.wcy.music.utils.Preferences;
 
@@ -35,7 +34,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
     private List<Music> mMusicList;
     private MediaPlayer mPlayer = new MediaPlayer();
     private IntentFilter mNoisyFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-    private NoisyAudioStreamReceiver mNoisyReceiver = new NoisyAudioStreamReceiver();
     private Handler mHandler = new Handler();
     private AudioManager mAudioManager;
     private OnPlayerEventListener mListener;
@@ -173,7 +171,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mHandler.post(mBackgroundRunnable);
         Notifier.showPlay(mPlayingMusic);
         mAudioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        registerReceiver(mNoisyReceiver, mNoisyFilter);
     }
 
     private void pause() {
@@ -186,7 +183,6 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
         mHandler.removeCallbacks(mBackgroundRunnable);
         Notifier.showPause(mPlayingMusic);
         mAudioManager.abandonAudioFocus(this);
-        unregisterReceiver(mNoisyReceiver);
         if (mListener != null) {
             mListener.onPlayerPause();
         }

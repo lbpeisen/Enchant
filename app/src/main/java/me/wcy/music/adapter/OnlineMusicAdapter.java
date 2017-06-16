@@ -18,9 +18,6 @@ import me.wcy.music.utils.ImageUtils;
 import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.binding.ViewBinder;
 
-/**
- * 在线音乐列表适配器
- */
 public class OnlineMusicAdapter extends BaseAdapter {
     private List<OnlineMusic> mData;
     private OnMoreClickListener mListener;
