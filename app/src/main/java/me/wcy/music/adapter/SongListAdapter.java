@@ -25,9 +25,6 @@ import me.wcy.music.utils.binding.ViewBinder;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
-/**
- * 歌单列表适配器
- */
 public class SongListAdapter extends BaseAdapter {
     private static final int TYPE_PROFILE = 0;
     private static final int TYPE_MUSIC_LIST = 1;

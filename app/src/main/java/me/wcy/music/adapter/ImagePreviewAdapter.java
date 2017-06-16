@@ -18,7 +18,6 @@ import me.wcy.music.R;
 
 
 
-
 public class ImagePreviewAdapter extends
         RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

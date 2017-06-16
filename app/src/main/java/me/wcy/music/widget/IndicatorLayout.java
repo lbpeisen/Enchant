@@ -11,6 +11,10 @@ import me.wcy.music.utils.ScreenUtils;
 
 /**
  * 播放页Indicator
+<<<<<<< HEAD
+=======
+ * Created by rain on 2017/06/03.
+>>>>>>> 04f787ee11d5e2e81e0899f726a862bacab4a026
  */
 public class IndicatorLayout extends LinearLayout {
     public IndicatorLayout(Context context) {

@@ -17,9 +17,6 @@ import me.wcy.music.utils.FileUtils;
 import me.wcy.music.utils.binding.Bind;
 import me.wcy.music.utils.binding.ViewBinder;
 
-/**
- * 本地音乐列表适配器
- */
 public class LocalMusicAdapter extends BaseAdapter {
     private OnMoreClickListener mListener;
     private int mPlayingPosition;

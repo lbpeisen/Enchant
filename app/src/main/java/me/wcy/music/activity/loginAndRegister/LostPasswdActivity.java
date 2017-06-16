@@ -28,7 +28,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wcy.music.R;
 
-
 public class LostPasswdActivity extends AppCompatActivity {
     @Bind(R.id.fab_lost)
     FloatingActionButton fab;
