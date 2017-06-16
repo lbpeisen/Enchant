@@ -1,6 +1,9 @@
 package me.wcy.music.activity;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,23 +13,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
 import me.wcy.music.R;
 import me.wcy.music.adapter.ItemDecorationMy;
 import me.wcy.music.adapter.TimeLineAdapter;
-import me.wcy.music.application.AppCache;
+import me.wcy.music.application.MusicApplication;
+import me.wcy.music.fragment.SwipeFragment;
 import me.wcy.music.model.CommentGroup;
 import me.wcy.music.utils.CoverLoader;
-import me.wcy.music.utils.ImageUtils;
-import me.wcy.music.utils.ScreenUtils;
+import me.wcy.music.utils.ToastUtils;
 import me.wcy.music.utils.binding.Bind;
 
 import static me.wcy.music.R.id.backdrop_notice;
@@ -37,15 +34,16 @@ public class TimeLineActivity extends BaseActivity implements FloatingActionButt
     RecyclerView mRecyclerView;
     @Bind(R.id.backdrop_notice)
     ImageView mImageView;
-    @Bind(R.id.toolbar_comment)
+    @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.floatingButton)
     FloatingActionButton mActionButton;
+    private SharedPreferences sp;
 
     List<CommentGroup.Comment> mList = new ArrayList<>();
     TimeLineAdapter mAdapter;
     private long musicID;
+    private int localID;
     private String bitmapPath;
     private Bitmap bitmap;
 
@@ -79,7 +77,6 @@ public class TimeLineActivity extends BaseActivity implements FloatingActionButt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
-        ButterKnife.bind(this);
         initValue();
         initBitmap();
         initRecyclerView();
@@ -105,19 +102,32 @@ public class TimeLineActivity extends BaseActivity implements FloatingActionButt
         Intent intent= getIntent();
         musicID = intent.getLongExtra("MUSICID",0);
         bitmapPath = intent.getStringExtra("BITMAP");
+        sp =getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
+        localID = sp.getInt("id",0);
         mActionButton.setOnClickListener(this);
     }
 
     private void initBitmap(){
         bitmap = CoverLoader.getInstance().loadHand(bitmapPath);
         mImageView.setImageBitmap(bitmap);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.floatingButton:
+                if (MusicApplication.getLoginState() == 0) {
+                    ToastUtils.show("请先登录");
+                    return;
+                }
+                FragmentTransaction mFragTransaction = getFragmentManager().beginTransaction();
+                Fragment fragment =  getFragmentManager().findFragmentByTag("dialogFragment");
+                if(fragment!=null){
+                    //为了不重复显示dialog，在显示对话框之前移除正在显示的对话框
+                    mFragTransaction.remove(fragment);
+                }
+                SwipeFragment dialogFragment = new SwipeFragment(musicID,localID);
+                dialogFragment.show(mFragTransaction, "dialogFragment");
                 break;
         }
     }
