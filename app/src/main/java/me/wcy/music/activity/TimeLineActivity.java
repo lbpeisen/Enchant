@@ -7,12 +7,16 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import me.wcy.music.R;
 import me.wcy.music.adapter.ItemDecorationMy;
 import me.wcy.music.adapter.TimeLineAdapter;
@@ -20,6 +24,7 @@ import me.wcy.music.application.MusicApplication;
 import me.wcy.music.fragment.SwipeFragment;
 import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
+import me.wcy.music.model.Collotion;
 import me.wcy.music.model.CommentGroup;
 import me.wcy.music.utils.CoverLoader;
 import me.wcy.music.utils.ToastUtils;
@@ -27,7 +32,7 @@ import me.wcy.music.utils.binding.Bind;
 
 
 
-public class TimeLineActivity extends BaseActivity implements FloatingActionButton.OnClickListener {
+public class TimeLineActivity extends BaseActivity implements FloatingActionButton.OnClickListener{
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.backdrop_notice)
@@ -79,13 +84,19 @@ public class TimeLineActivity extends BaseActivity implements FloatingActionButt
         HttpClient.getComent(String.valueOf(musicID), new HttpCallback<CommentGroup>() {
             @Override
             public void onSuccess(CommentGroup commentGroup) {
-                mAdapter.setList(commentGroup.getMusicCommnets());
-                mAdapter.notifyDataSetChanged();
+                if(commentGroup.getMusicCommnets().size()!=0){
+                    ArrayList<CommentGroup.Comment> commentList = commentGroup.getMusicCommnets();
+                    Collections.sort(commentList);
+                    mAdapter.setList(commentList);
+                    mAdapter.notifyDataSetChanged();
+                }else {
+                    ToastUtils.show("赶快抢第一个评论吧");
+                }
             }
 
             @Override
             public void onFail(Exception e) {
-                //e
+                ToastUtils.show("网络问题");
             }
         });
     }
@@ -105,9 +116,14 @@ public class TimeLineActivity extends BaseActivity implements FloatingActionButt
                 }
                 sp =getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
                 localID = sp.getInt("id",0);
-                SwipeFragment dialogFragment = new SwipeFragment(musicID,localID);
+                SwipeFragment dialogFragment = new SwipeFragment(musicID,localID,TimeLineActivity.this);
                 dialogFragment.show(mFragTransaction, "dialogFragment");
+                initCommentList();
                 break;
         }
+    }
+
+    public void reflash(){
+        initCommentList();
     }
 }

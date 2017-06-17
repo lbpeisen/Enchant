@@ -1,14 +1,18 @@
 package me.wcy.music.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by han78 on 2017/6/16.
  */
 
 public class CommentGroup {
+
     @SerializedName("musicCommnets")
     private ArrayList<Comment> musicCommnets;
 
@@ -24,7 +28,7 @@ public class CommentGroup {
         this.musicCommnets = musicCommnets;
     }
 
-    public static class Comment{
+    public static class Comment implements Comparable<Comment>{
         @SerializedName("comment")
         private String comment;
         @SerializedName("create_time")
@@ -60,6 +64,11 @@ public class CommentGroup {
 
         public void setUser_name(String user_name) {
             this.user_name = user_name;
+        }
+
+        @Override
+        public int compareTo(@NonNull Comment o) {
+            return  -1*Long.compare(this.create_time,o.getCreate_time());
         }
     }
 

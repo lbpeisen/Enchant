@@ -1,7 +1,9 @@
 package me.wcy.music.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,8 +13,7 @@ import android.widget.Toast;
 
 import com.labo.kaji.swipeawaydialog.SwipeAwayDialogFragment;
 
-import cn.refactor.lib.colordialog.ColorDialog;
-import me.wcy.music.R;
+import me.wcy.music.activity.TimeLineActivity;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
@@ -24,21 +25,23 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
     private EditText editText;
     private String musicID;
     private String localid;
+    private Context context;
 
-
-    public SwipeFragment(long musicID,int localid) {
+    public SwipeFragment(long musicID,int localid,Context context) {
         this.musicID = String.valueOf(musicID);
         this.localid = String.valueOf(localid);
+        this.context = context;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 //        ColorDialog colorDialog = new ColorDialog(getActivity());
 //        editText = new EditText(getActivity());
 //        editText.setFocusable(true);
 //        editText.setFocusableInTouchMode(true);
 //        editText.requestFocus();
-//        colorDialog.setContentView(editText);
+//        colorDialog.getWindow().setContentView(editText);
 //        colorDialog.setPositiveListener("发送", new ColorDialog.OnPositiveListener() {
 //            @Override
 //            public void onClick(ColorDialog colorDialog) {
@@ -52,6 +55,8 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
 //            }
 //        });
 //        return  colorDialog;
+
+
         editText = new EditText(getActivity());
         editText.setFocusable(true);
         editText.setFocusableInTouchMode(true);
@@ -65,18 +70,19 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
             * */
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (MusicApplication.getLoginState() == 0) {
-                    ToastUtils.show("请先登录");
-                    return;
-                }
                 String comment = editText.getText().toString();
                 HttpClient.sendComent(localid, musicID, comment, new HttpCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
                         if (s.contains("\"STATUS\":1000")){
-                            ToastUtils.show("发送成功");
+                            ToastUtils.showDialog(context,"发送成功");
+                            TimeLineActivity activity = (TimeLineActivity) context;
+                            activity.reflash();
+
+                           //ToastUtils.show("发送成功");
                         }else {
-                            ToastUtils.show("发送失败");
+                            ToastUtils.showDialog(context,"失败");
+                            //ToastUtils.show("发送失败");
                         }
                     }
 

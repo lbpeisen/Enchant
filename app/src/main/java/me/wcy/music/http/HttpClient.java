@@ -335,7 +335,7 @@ public class HttpClient {
     public static void getComent(String musicID, final HttpCallback<CommentGroup> callback) {
         OkHttpUtils
                 .postString()
-                .url(MusicApplication.ip + "enchant/releaseComment.action")
+                .url(MusicApplication.ip + "enchant/getMusicComment.action")
                 .content(new Gson().toJson(new GetComment(musicID)))//local user`s id and remote user`s id
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
