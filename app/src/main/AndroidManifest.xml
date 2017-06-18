@@ -100,7 +100,8 @@
             android:label="@string/mess_content" />
 
         <activity
-            android:name=".activity.TimeLineActivity" />
+            android:name=".activity.TimeLineActivity"
+            android:label="@string/bt_comment"/>
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/menu_about"
