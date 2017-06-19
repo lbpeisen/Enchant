@@ -295,7 +295,7 @@ public class HttpClient {
     public static void collectMusic(String localID, String localMusicID, String like, final HttpCallback<String> callback) {
         OkHttpUtils
                 .postString()
-                .url(MusicApplication.ip + "enchant/login.action")
+                .url(MusicApplication.ip + "enchant/musicFavourite.action")
                 .content(new Gson().toJson(new Collotion(localID, localMusicID, like)))//local user`s id and remote user`s id
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
