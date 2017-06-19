@@ -32,9 +32,12 @@ public class ToastUtils {
         }
         sToast.show();
     }
-
-    public static void showDialog(Context contenxt,String text){
-        Activity activity = (Activity) contenxt;
+    /*
+    * Dialog view
+    * using like the toast ,but need the activity`s context
+    * */
+    public static void showDialog(Context context,String text){
+        Activity activity = (Activity) context;
         FragmentTransaction mFragTransaction = activity.getFragmentManager().beginTransaction();
         Fragment fragment = activity.getFragmentManager().findFragmentByTag("dialogFragment");
         if(fragment!=null){
