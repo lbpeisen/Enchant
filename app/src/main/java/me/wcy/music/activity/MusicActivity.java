@@ -134,6 +134,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         urlList.add("http://www.lovexn.top/img/80964.jpg");
         urlList.add("http://www.lovexn.top/img/80965.jpg");
     }
+
     /*初始化侧边栏*/
     private void initProfile() {
         if (MusicApplication.getLoginState() == 1) {
@@ -144,16 +145,20 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             int avatar = sp.getInt("avatar", 0);
             Log.d(TAG, "initProfile: " + name);
             Log.d(TAG, "initProfile: " + id);
+            Log.d(TAG, "initProfile: initUi" + avatar);
             if (avatar != -1) {
+                Log.d(TAG, "initProfile: 1111" + avatar);
                 Glide.with(this)
                         .load(urlList.get(avatar))
                         .into(circleimg);
             } else {
+                Log.d(TAG, "initProfile: mg/80948.jpg" + avatar);
                 Glide.with(this)
                         .load("http://www.lovexn.top/img/80948.jpg")
                         .into(circleimg);
             }
         } else {
+            Log.d(TAG, "initProfile: mg/80948.jpg" + avatar);
             Glide.with(this)
                     .load("http://www.lovexn.top/img/80948.jpg")
                     .into(circleimg);
@@ -215,7 +220,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("name", username);
                 if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
-                    return;
+//                    return;
                 }
                 if (avatar == -1) {
                     avatar = 0;
@@ -476,6 +481,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void changeProfile() {
+        Log.d(TAG, "changeProfile: " + avatar);
         Glide.with(this)
                 .load(urlList.get(avatar))
                 .into(circleimg);

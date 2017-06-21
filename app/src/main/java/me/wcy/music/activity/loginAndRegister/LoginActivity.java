@@ -226,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
                             sp.edit().putString("name", user.getName()).commit();
                             sp.edit().putInt("id", user.getId()).commit();
                             sp.edit().putInt("avatar", user.getAvator()).commit();
+                            Log.d(TAG, "onResponse: initUiinitUi" + user.getAvator());
                             MusicApplication.login();
                             Log.d(TAG, "onResponse:1111 ");
                             Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
@@ -421,9 +422,9 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("result1111", result);
 //                            Gson gson = new Gson();
 //                            Log.d("result1111", result);
-//                            facepp person = gson.fromJson(response2.toString(), facepp.class);
+//                            Facepp person = gson.fromJson(response2.toString(), Facepp.class);
 //                            Log.d("result1111", result);
-//                            Log.d("result1111", "" + facepp.ResultsBean.getConfidence());
+//                            Log.d("result1111", "" + Facepp.ResultsBean.getConfidence());
 //                            Log.d("result1111", "" + person);
                             JSONObject jsonObject2 = new JSONObject(result);
                             JSONArray jsonArray = jsonObject2.getJSONArray("results");

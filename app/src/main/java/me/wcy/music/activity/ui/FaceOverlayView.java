@@ -18,9 +18,6 @@ import java.text.DecimalFormat;
 
 
 
-/**
- * Created by Nguyen on 5/20/2016.
- */
 
 /**
  * This class is a simple View to display the faces.

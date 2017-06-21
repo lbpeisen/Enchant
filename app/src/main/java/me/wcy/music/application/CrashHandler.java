@@ -11,10 +11,7 @@ import java.util.Locale;
 
 import me.wcy.music.utils.FileUtils;
 
-/**
- * 异常捕获
- * Created by hzwangchenyan on 2016/1/25.
- */
+
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
     private static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());

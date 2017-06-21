@@ -19,7 +19,6 @@ import me.wcy.music.utils.ImageUtils;
 
 /**
  * 专辑封面
- * Created by wcy on 2015/11/30.
  */
 public class AlbumCoverView extends View implements ValueAnimator.AnimatorUpdateListener {
     private static final long TIME_UPDATE = 50L;

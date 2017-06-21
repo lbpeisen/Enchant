@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by han78 on 2017/6/6.
  * 用于接收详细通知记录的类
  */
 

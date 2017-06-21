@@ -10,7 +10,6 @@ import me.wcy.music.fragment.SwipToastFragment;
 
 /**
  * Toast工具类
- * Created by wcy on 2015/12/26.
  */
 public class ToastUtils {
     private static Context sContext;

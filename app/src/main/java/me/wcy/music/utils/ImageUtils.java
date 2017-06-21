@@ -17,7 +17,6 @@ import me.wcy.music.activity.ui.FaceResult;
 
 /**
  * 图像工具类
- * Created by wcy on 2015/11/29.
  */
 public class ImageUtils {
     public static final int BLUR_RADIUS = 50;

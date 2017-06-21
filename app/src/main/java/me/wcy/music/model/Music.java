@@ -2,7 +2,6 @@ package me.wcy.music.model;
 
 /**
  * 单曲信息
- * Created by wcy on 2015/11/27.
  */
 public class Music {
     // 歌曲类型:本地/网络

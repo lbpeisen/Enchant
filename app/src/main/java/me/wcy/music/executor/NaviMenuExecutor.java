@@ -26,7 +26,6 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 导航菜单执行器
- * Created by hzwangchenyan on 2016/1/14.
  */
 public class NaviMenuExecutor {
 

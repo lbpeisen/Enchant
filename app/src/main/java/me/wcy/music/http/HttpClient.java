@@ -14,17 +14,19 @@ import java.io.File;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.model.ArtistInfo;
 import me.wcy.music.model.ChatMessageGroup;
-import me.wcy.music.model.Collotion;
+import me.wcy.music.model.CollectionMusic;
 import me.wcy.music.model.CommentGroup;
 import me.wcy.music.model.DownloadInfo;
+import me.wcy.music.model.FavoriteMusicGroup;
 import me.wcy.music.model.GetChat;
 import me.wcy.music.model.GetComment;
-import me.wcy.music.model.SendComment;
+import me.wcy.music.model.GetFavoriteMusic;
 import me.wcy.music.model.GetMess;
 import me.wcy.music.model.Lrc;
 import me.wcy.music.model.OnlineMusicList;
 import me.wcy.music.model.ReceiveMessGroup;
 import me.wcy.music.model.SearchMusic;
+import me.wcy.music.model.SendComment;
 import me.wcy.music.model.Splash;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -34,7 +36,6 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 /**
- * Created by hzwangchenyan on 2017/2/8.
  * 网络操作类
  */
 public class HttpClient {
@@ -237,7 +238,7 @@ public class HttpClient {
                 });
     }
 
-    public  static void getReceiveMess(String localID,final  HttpCallback<ReceiveMessGroup> callback ){
+    public static void getReceiveMess(String localID, final HttpCallback<ReceiveMessGroup> callback) {
 
         OkHttpUtils
                 .postString()
@@ -265,11 +266,11 @@ public class HttpClient {
     }
 
 
-    public  static void getChat(String localID,String remoteID,final  HttpCallback<ChatMessageGroup> callback ){
+    public static void getChat(String localID, String remoteID, final HttpCallback<ChatMessageGroup> callback) {
         OkHttpUtils
                 .postString()
                 .url(MusicApplication.ip + "enchant/getMessages.action")
-                .content(new Gson().toJson(new GetChat(localID,remoteID)))//local user`s id and remote user`s id
+                .content(new Gson().toJson(new GetChat(localID, remoteID)))//local user`s id and remote user`s id
 
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
@@ -292,11 +293,11 @@ public class HttpClient {
                 });
     }
 
-    public static void collectMusic(String localID, String localMusicID, String like, final HttpCallback<String> callback) {
+    public static void collectMusic(String localID, String localMusicID, String like, String title, String artist, String path, final HttpCallback<String> callback) {
         OkHttpUtils
                 .postString()
                 .url(MusicApplication.ip + "enchant/musicFavourite.action")
-                .content(new Gson().toJson(new Collotion(localID, localMusicID, like)))//local user`s id and remote user`s id
+                .content(new Gson().toJson(new CollectionMusic(localID, localMusicID, like, title, artist, path)))//local user`s id and remote user`s id
                 .mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build()
                 .execute(new StringCallback() {
@@ -348,6 +349,27 @@ public class HttpClient {
 
                     @Override
                     public void onResponse(CommentGroup response, int id) {
+                        callback.onSuccess(response);
+                    }
+                });
+    }
+
+    public static void getFavoriteMusic(String localID, final HttpCallback<FavoriteMusicGroup> callback) {
+        OkHttpUtils
+                .postString()
+                .url(MusicApplication.ip + "enchant/getFavouriteMusic.action")
+                .content(new Gson().toJson(new GetFavoriteMusic(localID)))
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .build()
+                .execute(new JsonCallback<FavoriteMusicGroup>(FavoriteMusicGroup.class) {
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        callback.onFail(e);
+                    }
+
+                    @Override
+                    public void onResponse(FavoriteMusicGroup response, int id) {
                         callback.onSuccess(response);
                     }
                 });

@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import me.wcy.music.constants.Actions;
 import me.wcy.music.service.PlayService;
 
-
 public class StatusBarReceiver extends BroadcastReceiver {
     public static final String ACTION_STATUS_BAR = "me.wcy.music.STATUS_BAR_ACTIONS";
     public static final String EXTRA = "extra";

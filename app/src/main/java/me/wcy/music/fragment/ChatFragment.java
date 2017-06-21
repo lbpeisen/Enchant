@@ -11,13 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,9 +28,7 @@ import me.wcy.music.model.ChatMessageGroup;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * Created by han78 on 2017/6/8.
- */
+
 
 public class ChatFragment  extends android.app.Fragment implements SwipeRefreshLayout.OnRefreshListener{
     @Bind(R.id.swipe_refresh_layout_news)

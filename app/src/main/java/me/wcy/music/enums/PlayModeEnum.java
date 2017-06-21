@@ -2,7 +2,6 @@ package me.wcy.music.enums;
 
 /**
  * 播放模式
- * Created by wcy on 2015/12/26.
  */
 public enum PlayModeEnum {
     LOOP(0),
