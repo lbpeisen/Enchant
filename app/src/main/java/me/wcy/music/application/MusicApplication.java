@@ -15,10 +15,7 @@ import me.wcy.music.http.HttpInterceptor;
 import me.wcy.music.utils.Preferences;
 import okhttp3.OkHttpClient;
 
-/**
- * 自定义Application
- * Created by wcy on 2015/11/27.
- */
+
 public class MusicApplication extends Application {
 
     public static String key = "vfXSA6XTVDYpr2HL0xOUdVqXbcJoU99C";//api_key

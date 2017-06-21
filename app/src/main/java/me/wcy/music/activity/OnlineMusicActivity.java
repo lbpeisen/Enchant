@@ -76,6 +76,7 @@ public class OnlineMusicActivity extends BaseActivity implements OnItemClickList
 
         mListInfo = (SongListInfo) getIntent().getSerializableExtra(Extras.MUSIC_LIST_TYPE);
         setTitle(mListInfo.getTitle());
+        Log.d(TAG, "onCreate: " + mListInfo.getMusic1());
 
         init();
         onLoad();
@@ -196,6 +197,7 @@ public class OnlineMusicActivity extends BaseActivity implements OnItemClickList
     }
 
     private void play(OnlineMusic onlineMusic) {
+        Log.d(TAG, "play: " + onlineMusic.getTitle());
         new PlayOnlineMusic(this, onlineMusic) {
             @Override
             public void onPrepare() {

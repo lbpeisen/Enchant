@@ -10,9 +10,7 @@ import me.wcy.music.model.Music;
 import me.wcy.music.utils.NetworkUtils;
 import me.wcy.music.utils.Preferences;
 
-/**
- * Created by hzwangchenyan on 2017/1/20.
- */
+
 public abstract class PlayMusic implements IExecutor<Music> {
     private Activity mActivity;
     protected Music music;

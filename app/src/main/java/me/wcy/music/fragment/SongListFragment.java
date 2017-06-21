@@ -28,7 +28,6 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 在线音乐
- * Created by wcy on 2015/11/26.
  */
 public class SongListFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     @Bind(R.id.lv_song_list)
@@ -52,6 +51,7 @@ public class SongListFragment extends BaseFragment implements AdapterView.OnItem
             return;
         }
         mSongLists = AppCache.getSongListInfos();
+        Log.d(TAG, "init: " + mSongLists.size());
         if (mSongLists.isEmpty()) {
             String[] titles = getResources().getStringArray(R.array.online_music_list_title);
             String[] types = getResources().getStringArray(R.array.online_music_list_type);
@@ -62,7 +62,8 @@ public class SongListFragment extends BaseFragment implements AdapterView.OnItem
                 mSongLists.add(info);
             }
         }
-        Log.d(TAG, "init: "+mSongLists.get(0).getMusic1());
+        Log.d(TAG, "init: " + mSongLists.get(0).getMusic1());
+        Log.d(TAG, "init: " + mSongLists.get(0).toString());
         SongListAdapter adapter = new SongListAdapter(mSongLists);
         lvSongList.setAdapter(adapter);
     }

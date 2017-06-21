@@ -1,15 +1,17 @@
 package me.wcy.music.model;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 import java.util.Locale;
 
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
+
 /**
  * 启动画面Java bean
- * Created by hzwangchenyan on 2016/3/2.
  */
 public class Splash {
     private static final String URL = "http://cn.bing.com%s_720x1280.jpg";
@@ -21,6 +23,9 @@ public class Splash {
         if (images != null && !images.isEmpty()) {
             String baseUrl = images.get(0).urlbase;
             if (!TextUtils.isEmpty(baseUrl)) {
+                Log.d(TAG, "getUrl: " + Locale.getDefault());
+                Log.d(TAG, "getUrl: " + baseUrl);
+                Log.d(TAG, "getUrl: " + String.format(Locale.getDefault(), URL, baseUrl));
                 return String.format(Locale.getDefault(), URL, baseUrl);
             }
         }

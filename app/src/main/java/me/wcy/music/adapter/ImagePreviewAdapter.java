@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import me.wcy.music.R;
 
 
-/**
- * Created by Nguyen on 5/20/2016.
- */
 
 
 public class ImagePreviewAdapter extends

@@ -30,21 +30,16 @@ import me.wcy.music.application.AppCache;
 import me.wcy.music.application.MusicApplication;
 import me.wcy.music.constants.Extras;
 import me.wcy.music.executor.NaviMenuExecutor;
-import me.wcy.music.executor.WeatherExecutor;
 import me.wcy.music.fragment.LocalMusicFragment;
 import me.wcy.music.fragment.PlayFragment;
 import me.wcy.music.fragment.SongListFragment;
 import me.wcy.music.model.Music;
-import me.wcy.music.receiver.RemoteControlReceiver;
 import me.wcy.music.service.OnPlayerEventListener;
 import me.wcy.music.service.PlayService;
 import me.wcy.music.utils.CoverLoader;
 import me.wcy.music.utils.SystemUtils;
 import me.wcy.music.utils.ToastUtils;
 import me.wcy.music.utils.binding.Bind;
-import me.wcy.music.utils.permission.PermissionReq;
-import me.wcy.music.utils.permission.PermissionResult;
-import me.wcy.music.utils.permission.Permissions;
 import me.wcy.music.widget.CircleImageView;
 
 
@@ -78,8 +73,10 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     @Bind(R.id.iv_play_bar_next)
     private ImageView ivPlayBarNext;
     @Bind(R.id.pb_play_bar)
-    public TextView profile_tv;
     private ProgressBar mProgressBar;
+
+
+    public TextView profile_tv;
     private View vNavigationHeader;
     private LocalMusicFragment mLocalMusicFragment;
     private SongListFragment mSongListFragment;
@@ -110,8 +107,6 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         getPlayService().setOnPlayEventListener(this);
 
         setupView();
-        updateWeather();
-        registerReceiver();
         onChange(getPlayService().getPlayingMusic());
         parseIntent();
         initList();
@@ -140,6 +135,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         urlList.add("http://www.lovexn.top/img/80965.jpg");
     }
 
+    /*初始化侧边栏*/
     private void initProfile() {
         if (MusicApplication.getLoginState() == 1) {
             sp = getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
@@ -149,16 +145,20 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
             int avatar = sp.getInt("avatar", 0);
             Log.d(TAG, "initProfile: " + name);
             Log.d(TAG, "initProfile: " + id);
+            Log.d(TAG, "initProfile: initUi" + avatar);
             if (avatar != -1) {
+                Log.d(TAG, "initProfile: 1111" + avatar);
                 Glide.with(this)
                         .load(urlList.get(avatar))
                         .into(circleimg);
             } else {
+                Log.d(TAG, "initProfile: mg/80948.jpg" + avatar);
                 Glide.with(this)
                         .load("http://www.lovexn.top/img/80948.jpg")
                         .into(circleimg);
             }
         } else {
+            Log.d(TAG, "initProfile: mg/80948.jpg" + avatar);
             Glide.with(this)
                     .load("http://www.lovexn.top/img/80948.jpg")
                     .into(circleimg);
@@ -211,6 +211,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         adapter.addFragment(mSongListFragment);
         mViewPager.setAdapter(adapter);
         tvLocalMusic.setSelected(true);
+        /*头像按钮*/
         vNavigationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,7 +220,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("name", username);
                 if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
-                    return;
+//                    return;
                 }
                 if (avatar == -1) {
                     avatar = 0;
@@ -230,29 +231,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    private void updateWeather() {
-        PermissionReq.with(this)
-                .permissions(Permissions.LOCATION)
-                .result(new PermissionResult() {
-                    @Override
-                    public void onGranted() {
-                        new WeatherExecutor(getPlayService(), vNavigationHeader).execute();
-                    }
-
-                    @Override
-                    public void onDenied() {
-                        ToastUtils.show(getString(R.string.no_permission, Permissions.LOCATION_DESC, "更新天气"));
-                    }
-                })
-                .request();
-    }
-
-    private void registerReceiver() {
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        mRemoteReceiver = new ComponentName(getPackageName(), RemoteControlReceiver.class.getName());
-        mAudioManager.registerMediaButtonEventReceiver(mRemoteReceiver);
-    }
-
+    /*接收传递*/
     private void parseIntent() {
         Intent intent = getIntent();
         if (intent.hasExtra(Extras.EXTRA_NOTIFICATION)) {
@@ -502,6 +481,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void changeProfile() {
+        Log.d(TAG, "changeProfile: " + avatar);
         Glide.with(this)
                 .load(urlList.get(avatar))
                 .into(circleimg);

@@ -15,7 +15,6 @@ import me.wcy.music.utils.permission.PermissionReq;
 
 /**
  * 基类<br>
- * Created by wcy on 2015/11/26.
  */
 public abstract class BaseFragment extends Fragment {
     protected Handler mHandler = new Handler(Looper.getMainLooper());

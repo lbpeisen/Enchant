@@ -15,7 +15,6 @@ import me.wcy.music.utils.FileUtils;
 
 /**
  * 播放搜索的音乐
- * Created by hzwangchenyan on 2016/1/13.
  */
 public abstract class PlaySearchedMusic extends PlayMusic {
     private SearchMusic.Song mSong;

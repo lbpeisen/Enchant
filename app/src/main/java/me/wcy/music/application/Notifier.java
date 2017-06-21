@@ -26,9 +26,7 @@ import me.wcy.music.service.PlayService;
 import me.wcy.music.utils.CoverLoader;
 import me.wcy.music.utils.FileUtils;
 
-/**
- * Created by wcy on 2017/4/18.
- */
+
 public class Notifier {
     private static final int NOTIFICATION_ID = 0x111;
     private static PlayService playService;
@@ -36,6 +34,7 @@ public class Notifier {
 
     public static void init(PlayService playService) {
         Notifier.playService = playService;
+        //得到NotificationManager的对象，用来实现发送Notificatione
         notificationManager = (NotificationManager) playService.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 

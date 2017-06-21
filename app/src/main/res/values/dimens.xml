@@ -16,4 +16,8 @@
     <dimen name="header_view_start_text_size">32sp</dimen>
     <dimen name="header_view_end_text_size">18sp</dimen>
     <!--profile-->
+    <dimen name="home_header_height">201dp</dimen>
+    <dimen name="normal_list_padding_bottom">36dp</dimen>
+    <dimen name="detail_backdrop_height">256dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

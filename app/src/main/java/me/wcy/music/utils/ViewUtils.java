@@ -6,7 +6,6 @@ import me.wcy.music.enums.LoadStateEnum;
 
 /**
  * 视图工具类
- * Created by hzwangchenyan on 2016/1/14.
  */
 public class ViewUtils {
     public static void changeViewState(View loadSuccess, View loading, View loadFail, LoadStateEnum state) {

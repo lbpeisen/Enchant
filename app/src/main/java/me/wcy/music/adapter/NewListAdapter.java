@@ -3,7 +3,6 @@ package me.wcy.music.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,15 @@ import java.util.ArrayList;
 
 import me.wcy.music.R;
 import me.wcy.music.activity.ChatActivity;
-import me.wcy.music.model.ReceiveMess;
+import me.wcy.music.model.ReceiveMessGroup;
+import me.wcy.music.utils.TransTime;
 
 /**
- * Created by rain on 2016/4/13.
+ * 消息通知的Adapter
  */
 public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<ReceiveMess> info=new ArrayList<ReceiveMess>();
+    ArrayList<ReceiveMessGroup.ReceiveMess> info=new ArrayList<ReceiveMessGroup.ReceiveMess>();
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
@@ -60,8 +60,8 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((ContentViewHolder) holder).title.setText(info.get(position).getRemoteName());
-        ((ContentViewHolder) holder).content.setText(info.get(position).getMess_title());
-        ((ContentViewHolder) holder).time.setText(info.get(position).getTime());
+        ((ContentViewHolder) holder).content.setText(info.get(position).getLastMessage());
+        ((ContentViewHolder) holder).time.setText(TransTime.trans(info.get(position).getLastTime()));//将时间戳转成有效时间
         ((ContentViewHolder) holder).remoteID =  info.get(position).getRemoteID();
     }
     //size of adapter
@@ -70,7 +70,8 @@ public class NewListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return info.size();
     }
 
-    public void notifyChange(ArrayList<ReceiveMess> receiveMesses){
+    /*时间戳转换成有效时间方法*/
+    public void notifyChange(ArrayList<ReceiveMessGroup.ReceiveMess> receiveMesses){
         this.info = receiveMesses;
         notifyDataSetChanged();
     }

@@ -1,5 +1,6 @@
 package me.wcy.music.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,8 +20,9 @@ import me.wcy.music.R;
 import me.wcy.music.adapter.NewListAdapter;
 import me.wcy.music.http.HttpCallback;
 import me.wcy.music.http.HttpClient;
-import me.wcy.music.model.ReceiveMess;
 import me.wcy.music.model.ReceiveMessGroup;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * 通知
@@ -33,8 +35,9 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
     @Bind(R.id.cardList_news)
     RecyclerView mRecyclerView;
     NewListAdapter newsadapter;
-    ArrayList<ReceiveMess> receiveMesses;
-
+    ArrayList<ReceiveMessGroup.ReceiveMess> receiveMesses;
+    private SharedPreferences sp;
+    private String localid;
 
     @Nullable
     @Override
@@ -48,6 +51,10 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
         newsadapter=new NewListAdapter(getActivity());
         mRecyclerView.setAdapter(newsadapter);//设置Adapter
+        //localId
+        sp = getActivity().getSharedPreferences("proFile", MODE_PRIVATE);//获得实例对象
+        localid = String.valueOf(sp.getInt("id", 0));
+        onRefresh();
         return view;
     }
 
@@ -61,8 +68,7 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
 
     @Override
     public void onRefresh() {
-        addTest();
-        newsadapter.notifyChange(this.receiveMesses);
+        GetNewInfo(localid);
     }
 
 
@@ -71,7 +77,8 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
         HttpClient.getReceiveMess(localID, new HttpCallback<ReceiveMessGroup>() {
             @Override
             public void onSuccess(ReceiveMessGroup receiveMessGroup) {
-                receiveMesses = receiveMessGroup.getReceiveMessesList();
+                receiveMesses = receiveMessGroup.getReceiveMessArrayList();
+                newsadapter.notifyChange(receiveMesses);
                 swipe_refresh_layout.setRefreshing(false);
             }
 
@@ -80,15 +87,5 @@ public class NewsListFragment extends android.app.Fragment implements SwipeRefre
                 Log.i("getNewsListError",e.getMessage());
             }
         });
-    }
-
-
-    public void addTest(){
-        ArrayList<ReceiveMess> info = new ArrayList<>();
-        for(int i = 1; i <10 ;i++){
-            info.add(new ReceiveMess("1","1","Title","2016"));
-        }
-        this.receiveMesses = info;
-        swipe_refresh_layout.setRefreshing(false);
     }
 }

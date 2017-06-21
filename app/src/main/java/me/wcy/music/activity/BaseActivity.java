@@ -29,7 +29,7 @@ import me.wcy.music.utils.permission.PermissionReq;
 /**
  * 基类<br>
  * 如果继承本类，需要在 layout 中添加 {@link Toolbar} ，并将 AppTheme 继承 Theme.AppCompat.NoActionBar 。
- * Created by wcy on 2015/11/26.
+ * Created by rain on 2017/06/01.
  */
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "Activity";
@@ -43,6 +43,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSystemBarTransparent();
         AppCache.addToStack(this);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+//        当开发多媒体应用或者游戏应用的时候，需要使用音量控制键来设置程序的音量大小。
+//        在Android系统中有多中音频流，通过Activity中的函数 setVolumeControlStream(int streamType)
+//        可以设置该Activity中音量控制键控制的音频流，一般在onCreate函数中设置。Android中有如下几种音频流
+//        （streamType是需要调整音量的类型）：
+//        AudioManager.STREAM_MUSIC  /音乐回放即媒体音量/
     }
 
     @Override

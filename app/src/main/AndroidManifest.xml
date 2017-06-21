@@ -8,14 +8,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!--高德天气-->
+    <!-- 高德天气 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--Bugly-->
+    <!-- Bugly -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <!--face++-->
+    <!-- face++ -->
+
 
     <!-- 往sdcard中写入数据的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -30,7 +31,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -57,13 +57,6 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".receiver.RemoteControlReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".receiver.StatusBarReceiver">
             <intent-filter>
                 <action android:name="me.wcy.music.STATUS_BAR_ACTIONS" />
@@ -102,38 +95,35 @@
             android:name=".activity.MessageActivity"
             android:label="@string/mess_info"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ChatActivity"
             android:label="@string/mess_content" />
 
         <activity
+            android:name=".activity.TimeLineActivity"
+            android:label="@string/bt_comment"/>
+        <activity
             android:name=".activity.AboutActivity"
             android:label="@string/menu_about"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" /><![CDATA[
+        />
+        ]]>
         <activity android:name=".activity.loginAndRegister.LoginActivity" />
         <activity android:name=".activity.loginAndRegister.LostPasswdActivity" />
         <activity android:name=".activity.loginAndRegister.RegisterActivity" />
+
         <activity
             android:name=".activity.ProfileAcitivity"
             android:theme="@style/AppTheme.StatusBarTransparent">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MusicActivity" />
-
         </activity>
-
-        <activity
-            android:name=".activity.AvatarActivity"
-            >
-
+        <activity android:name=".activity.AvatarActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.ProfileAcitivity" />
-
         </activity>
-
         <activity
             android:name=".activity.face.FaceDetectGrayActivity"
             android:theme="@style/LoginTheme" />
