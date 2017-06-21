@@ -134,6 +134,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         urlList.add("http://www.lovexn.top/img/80964.jpg");
         urlList.add("http://www.lovexn.top/img/80965.jpg");
     }
+
     /*初始化侧边栏*/
     private void initProfile() {
         if (MusicApplication.getLoginState() == 1) {
@@ -219,7 +220,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("name", username);
                 if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
-                    return;
+//                    return;
                 }
                 if (avatar == -1) {
                     avatar = 0;

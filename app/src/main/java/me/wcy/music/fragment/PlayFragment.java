@@ -29,7 +29,6 @@ import java.util.List;
 
 import me.wcy.lrcview.LrcView;
 import me.wcy.music.R;
-import me.wcy.music.activity.ChatActivity;
 import me.wcy.music.activity.TimeLineActivity;
 import me.wcy.music.adapter.PlayPagerAdapter;
 import me.wcy.music.application.MusicApplication;
@@ -100,6 +99,8 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     private String BitmapPath;
     private Music.Type type;//播放歌曲的类型
     private String artName;
+    private Music music;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         localid = sp.getInt("id", 0);
         return inflater.inflate(R.layout.fragment_play, container, false);
     }
+
     /*
     * 初始化
     * */
@@ -149,6 +151,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             llContent.setPadding(0, top, 0, 0);
         }
     }
+
     /*
     * 初始化界面
     * */
@@ -203,6 +206,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
             onPlay(music);
         }
     }
+
     /*
     * 歌曲暂停
     * */
@@ -239,13 +243,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 prev();
                 break;
             case R.id.tv_comment:
-                if(type== Music.Type.ONLINE) {
+                if (type == Music.Type.ONLINE) {
                     Intent userActivity = new Intent(getActivity(), TimeLineActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     userActivity.putExtra("MUSICID", musicDration);
                     userActivity.putExtra("BITMAP", BitmapPath);
-                    userActivity.putExtra("ART",artName);
+                    userActivity.putExtra("ART", artName);
                     startActivity(userActivity);
-                }else {
+                } else {
                     ToastUtils.show(R.string.comment_err);
                 }
                 break;
@@ -275,6 +279,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
     }
+
     /*
     * 拖动停止后更改相关信息
     * */
@@ -297,12 +302,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         if (music == null) {
             return;
         }
+        this.music = music;
         BitmapPath = FileUtils.getAlbumFilePath(music);
         musicDration = music.getDuration();//remote
         type = music.getType();//类型(local还是remote)
         tvTitle.setText(music.getTitle());
         tvArtist.setText(music.getArtist());
-        artName =  music.getArtist();
+        artName = music.getArtist();
         sbProgress.setMax((int) music.getDuration());
         sbProgress.setProgress(0);
         mLastProgress = 0;
@@ -432,6 +438,7 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
     public void onDestroy() {
         super.onDestroy();
     }
+
     /*
     * 点赞收藏功能
     * */
@@ -441,6 +448,13 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
         mThumbUpView.setOnThumbUp(new ThumbUpView.OnThumbUp() {
             @Override
             public void like(final boolean like) {
+                if (music == null) {
+                    ToastUtils.show("wrong");
+                    return;
+                } else if (music.getType() == Music.Type.LOCAL) {
+                    ToastUtils.show("暂时不支持本地歌曲收藏");
+                    return;
+                }
                 if (MusicApplication.getLoginState() == 0) {
                     ToastUtils.show("请先登录");
                     return;
@@ -453,9 +467,11 @@ public class PlayFragment extends BaseFragment implements View.OnClickListener,
                 } else {
                     ifLike = "0";
                 }
-                HttpClient.collectMusic(String.valueOf(localid), remoteMusicID, ifLike, new HttpCallback<String>() {
+
+                HttpClient.collectMusic(String.valueOf(localid), remoteMusicID, ifLike, music.getTitle(), music.getArtist(), music.getPath(), new HttpCallback<String>() {
                     @Override
                     public void onSuccess(String s) {
+                        Log.d(TAG, "onSuccess: collectMusic" + s);
                         if (s.contains("\"STATUS\":1000")) {
                             if (like) {
                                 ToastUtils.show(R.string.like);

@@ -2,6 +2,7 @@ package me.wcy.music.executor;
 
 import android.app.Activity;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 
@@ -10,6 +11,8 @@ import me.wcy.music.http.HttpClient;
 import me.wcy.music.model.DownloadInfo;
 import me.wcy.music.model.OnlineMusic;
 import me.wcy.music.utils.FileUtils;
+
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 下载音乐
@@ -35,6 +38,7 @@ public abstract class DownloadOnlineMusic extends DownloadMusic {
                     onFail(null);
                     return;
                 }
+                Log.d(TAG, "onSuccess: 111" + response);
 
                 downloadMusic(response.getBitrate().getFile_link(), artist, title);
                 onExecuteSuccess(null);

@@ -278,10 +278,11 @@ public class AvatarActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.bt_ava_sure:
                 Log.d(TAG, "onClick: " + id);
+                Log.d(TAG, "onClick: 111" + index);
                 if (id != -1) {
                     postString()
                             .url(MusicApplication.ip + "enchant/editAvatar.action")
-                            .content(new Gson().toJson(new User(id, index)))
+                            .content(new Gson().toJson(new User(index, id)))
                             .mediaType(MediaType.parse("application/json; charset=utf-8"))
                             .build()
                             .execute(new StringCallback() {
@@ -292,7 +293,7 @@ public class AvatarActivity extends AppCompatActivity implements View.OnClickLis
 
                                 @Override
                                 public void onResponse(String response, int id) {
-                                    Log.d(TAG, "onResponse: " + response);
+                                    Log.d(TAG, "onResponse: 23333" + response);
                                     sp.edit().putInt("avatar", index).commit();
                                     Log.d(TAG, "onOptionsItemSelected: put1" + index);
                                     Log.d(TAG, "onResponse: initUi" + index);

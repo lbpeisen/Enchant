@@ -197,6 +197,7 @@ public class OnlineMusicActivity extends BaseActivity implements OnItemClickList
     }
 
     private void play(OnlineMusic onlineMusic) {
+        Log.d(TAG, "play: " + onlineMusic.getTitle());
         new PlayOnlineMusic(this, onlineMusic) {
             @Override
             public void onPrepare() {

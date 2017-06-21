@@ -422,9 +422,9 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("result1111", result);
 //                            Gson gson = new Gson();
 //                            Log.d("result1111", result);
-//                            facepp person = gson.fromJson(response2.toString(), facepp.class);
+//                            Facepp person = gson.fromJson(response2.toString(), Facepp.class);
 //                            Log.d("result1111", result);
-//                            Log.d("result1111", "" + facepp.ResultsBean.getConfidence());
+//                            Log.d("result1111", "" + Facepp.ResultsBean.getConfidence());
 //                            Log.d("result1111", "" + person);
                             JSONObject jsonObject2 = new JSONObject(result);
                             JSONArray jsonArray = jsonObject2.getJSONArray("results");
