@@ -77,18 +77,18 @@ public class SwipeFragment extends SwipeAwayDialogFragment {
                         if (s.contains("\"STATUS\":1000")){
                             ToastUtils.showDialog(context,"发送成功");
                             TimeLineActivity activity = (TimeLineActivity) context;
-                            activity.reflash();
-
+                            activity.reflash();//刷新adapter
                            //ToastUtils.show("发送成功");
                         }else {
-                            ToastUtils.showDialog(context,"失败");
+                            ToastUtils.showDialog(context,"发送失败");
                             //ToastUtils.show("发送失败");
                         }
                     }
 
                     @Override
                     public void onFail(Exception e) {
-                        ToastUtils.show("发送失败");
+                        //ToastUtils.show("发送失败");
+                        ToastUtils.showDialog(context,"发送失败");
                     }
                 });
                 dialog.dismiss();
