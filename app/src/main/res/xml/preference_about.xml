@@ -26,8 +26,5 @@
         <Preference
             android:summary="百度音乐"
             android:title="在线音乐" />
-        <Preference
-            android:summary="高德地图"
-            android:title="天气数据" />
     </PreferenceCategory>
 </PreferenceScreen>
