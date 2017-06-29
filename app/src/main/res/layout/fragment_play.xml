@@ -68,7 +68,7 @@
                     android:layout_gravity="right"
                     android:scaleType="centerInside"
                     android:background="@null"
-                    android:src="@drawable/play_icn_cmt_dis" />
+                    android:src="@drawable/ic_mess" />
 
         </LinearLayout>
 

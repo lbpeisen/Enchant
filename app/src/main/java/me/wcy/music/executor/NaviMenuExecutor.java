@@ -40,6 +40,10 @@ public class NaviMenuExecutor {
                 Log.d(TAG, "onNavigationItemSelected: " + MusicApplication.getLoginState());
                 return true;
             case R.id.action_info:
+                if (MusicApplication.getLoginState() == 0) {
+                    ToastUtils.show("请先登录");
+                    return false;
+                }
                 startActivity(context, MessageActivity.class);
                 return true;
             case R.id.action_setting:

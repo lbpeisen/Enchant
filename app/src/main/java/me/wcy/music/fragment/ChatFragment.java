@@ -48,7 +48,6 @@ public class ChatFragment  extends android.app.Fragment implements SwipeRefreshL
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_chat,container,false);
         ButterKnife.bind(this, view);
         localView = view;
-        context = getContext();
         /*
         * 下拉刷新，暂时屏蔽该功能以免多次获得消息
         * */
