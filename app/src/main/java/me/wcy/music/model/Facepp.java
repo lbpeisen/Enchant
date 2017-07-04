@@ -129,4 +129,29 @@ public class Facepp {
             this.face_token = face_token;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Facepp facepp = (Facepp) o;
+
+        if (time_used != facepp.time_used) return false;
+        if (request_id != null ? !request_id.equals(facepp.request_id) : facepp.request_id != null)
+            return false;
+        if (thresholds != null ? !thresholds.equals(facepp.thresholds) : facepp.thresholds != null)
+            return false;
+        return results != null ? results.equals(facepp.results) : facepp.results == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = request_id != null ? request_id.hashCode() : 0;
+        result = 31 * result + time_used;
+        result = 31 * result + (thresholds != null ? thresholds.hashCode() : 0);
+        result = 31 * result + (results != null ? results.hashCode() : 0);
+        return result;
+    }
 }
